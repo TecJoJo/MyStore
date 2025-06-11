@@ -27,17 +27,17 @@ function ShoppingItem({
 }: ShoppingItemProps): React.JSX.Element {
   const dispatch = useAppDispatch()
   return (
-    <div className="mx-1 my-2 w-full flex">
+    <div className="mx-4 my-2 w-full flex">
       <img
         src={imageUrl}
         alt={name}
-        className="w-1/4 h-24 object-cover rounded-md"
+        className="w-1/4 h-24 object-cover rounded-md mr-4"
       />
       <div>
-        <h2 className="text-lg font-semibold">{name}</h2>
-        <p className="text-sm text-gray-600">Color: {color}</p>
-        <p className="text-sm text-gray-600">Size: {size}</p>
-        <p className="text-sm text-gray-600 flex items-center gap-2">
+        <h2 className="font-serif text-lg font-semibold">{name}</h2>
+        <p className="font-mono text-sm text-gray-600">Color: {color}</p>
+        <p className="font-mono text-sm text-gray-600">Size: {size}</p>
+        <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
           <span>Quantity: {quantity}</span>
           <span className="flex flex-col ml-1">
             <button onClick={() => dispatch(increaseCartItemQuantity(id))}>
@@ -48,8 +48,8 @@ function ShoppingItem({
             </button>
           </span>
         </p>
-        <p className="text-lg font-bold">
-          Price: $
+        <p className="text-md font-semibold font-monospace">
+          Price: €
           {discount
             ? (price * (1 - discount) * quantity).toFixed(2)
             : (price * quantity).toFixed(2)}
