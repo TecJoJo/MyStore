@@ -1,8 +1,11 @@
 import { FaSortUp, FaSortDown } from "react-icons/fa"
+import { RiDeleteBin5Line } from "react-icons/ri"
 import { useAppDispatch } from "../../../app/hooks"
+
 import {
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
+  deleteCartItem,
 } from "../cartSlice"
 interface ShoppingItemProps {
   id: string
@@ -26,6 +29,7 @@ function ShoppingItem({
   discount,
 }: ShoppingItemProps): React.JSX.Element {
   const dispatch = useAppDispatch()
+
   return (
     <div className="mx-4 my-2 w-full flex">
       <img
@@ -37,17 +41,32 @@ function ShoppingItem({
         <h2 className="font-serif text-lg font-semibold">{name}</h2>
         <p className="font-mono text-sm text-gray-600">Color: {color}</p>
         <p className="font-mono text-sm text-gray-600">Size: {size}</p>
-        <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
-          <span>Quantity: {quantity}</span>
-          <span className="flex flex-col ml-1">
-            <button onClick={() => dispatch(increaseCartItemQuantity(id))}>
-              <FaSortUp />
-            </button>
-            <button onClick={() => dispatch(decreaseCartItemQuantity(id))}>
-              <FaSortDown />
-            </button>
-          </span>
-        </p>
+        <div className="flex flex-row justify-between items-center">
+          <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
+            <span>Quantity: {quantity}</span>
+            <span className="flex flex-col ml-1">
+              <button
+                className="hover:bg-zinc-200"
+                onClick={() => dispatch(increaseCartItemQuantity(id))}
+              >
+                <FaSortUp />
+              </button>
+              <button
+                className="hover:bg-zinc-200"
+                onClick={() => dispatch(decreaseCartItemQuantity(id))}
+              >
+                <FaSortDown />
+              </button>
+            </span>
+          </p>
+          <p
+            className="mx-1 cursor-pointer hover:text-red-700"
+            onClick={() => dispatch(deleteCartItem(id))}
+          >
+            <RiDeleteBin5Line />
+          </p>
+        </div>
+
         <p className="text-md font-semibold font-monospace">
           Price: €
           {discount

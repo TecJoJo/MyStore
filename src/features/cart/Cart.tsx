@@ -3,12 +3,27 @@ import { toggleCart } from "../cart/cartSlice"
 import { IoCloseOutline } from "react-icons/io5"
 import { GiShoppingCart } from "react-icons/gi"
 import ShoppingItem from "./components/ShoppingItem"
+import { useState } from "react"
 
 function Cart() {
   const dispatch = useAppDispatch()
-
   const isCartOpen = useAppSelector(state => state.cart.isCartOpen)
   const cartItems = useAppSelector(state => state.cart.cartItems)
+
+  const cartTotal: number = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  )
+
+  //delivery price is 9.99€ for order under 29€ and 3.99€ for orders over 29€, over 50€ delivery is free
+  let deliveryPrice = 9.99
+  if (cartTotal >= 50) {
+    deliveryPrice = 0
+  } else if (cartTotal >= 29) {
+    deliveryPrice = 3.99
+  } else if (cartTotal < 29) {
+    deliveryPrice = 9.99
+  }
 
   const shoppingItems = cartItems.map(item => (
     <ShoppingItem
@@ -23,6 +38,12 @@ function Cart() {
       discount={item.discount}
     />
   ))
+
+  const emptyCart = (
+    <p className="w-full my-24 text-center font-semibold text-lg font-serif">
+      Your cart is empty
+    </p>
+  )
   return (
     <div
       className={`w-full bg-zinc-50  absolute top-0 right-0 mx-auto ${isCartOpen ? "block" : "hidden"} md:w-1/4`}
@@ -39,23 +60,17 @@ function Cart() {
           <IoCloseOutline size="2rem" />
         </button>
       </div>
-      {shoppingItems}
+      {cartItems.length === 0 ? emptyCart : shoppingItems}
       <div className="text-md font-semibold font-serif flex justify-between items-center m-4">
         <p>Delivery: </p>
         <p className="text-base font-normal font-monospace">
-          {cartItems
-            .reduce((total, item) => total + item.price * item.quantity, 0)
-            .toFixed(2)}{" "}
-          €
+          {cartTotal ? deliveryPrice.toFixed(2) : "0.00"} €
         </p>
       </div>
       <div className="text-md font-semibold font-serif flex justify-between items-center m-4">
         <p>Total: </p>
         <p className="text-base font-normal font-monospace">
-          {cartItems
-            .reduce((total, item) => total + item.price * item.quantity, 0)
-            .toFixed(2)}{" "}
-          €
+          {cartTotal ? (cartTotal + deliveryPrice).toFixed(2) : "0.00"} €
         </p>
       </div>
       <div className="flex justify-center items-center m-8">

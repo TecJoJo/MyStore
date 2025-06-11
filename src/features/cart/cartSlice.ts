@@ -45,12 +45,16 @@ export const cartSlice = createSlice({
         cartItem.quantity--
       }
     },
-  },
+    deleteCartItem(state, action: PayloadAction<string>) {
+      state.cartItems = state.cartItems.filter(item => item.id !== action.payload)
+    },
+  }
 })
 
 export const {
   toggleCart,
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
+  deleteCartItem
 } = cartSlice.actions
 export default cartSlice.reducer
