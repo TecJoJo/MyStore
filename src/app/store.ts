@@ -1,13 +1,16 @@
-import type { Action, ThunkAction } from "@reduxjs/toolkit"
+import { Action, ThunkAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { counterSlice } from "../features/counter/counterSlice"
 // import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
-import {cartSlice} from "../features/cart/cartSlice"
+import { cartSlice } from "../features/cart/cartSlice"
+import { authenticationSlice } from "../features/authentication/authenticationSlice"
+
+
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices(cartSlice)
+const rootReducer = combineSlices(cartSlice, authenticationSlice)
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
 
@@ -41,3 +44,4 @@ export type AppThunk<ThunkReturnType = void> = ThunkAction<
   unknown,
   Action
 >
+export const createAppAsyncThunk = createAsyncThunk.withTypes<{ state: RootState; dispatch: AppDispatch }>()

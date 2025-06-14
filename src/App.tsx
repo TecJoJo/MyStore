@@ -4,10 +4,11 @@ import { Quotes } from "./features/quotes/Quotes"
 import logo from "./logo.svg"
 import NaviBar from "./features/naviBar/Navibar"
 import Cart from "./features/cart/Cart"
+import Login from "./features/authentication/Login"
 export const App = () => (
   <>
     <NaviBar />
-
+    <Login />
     <div className="flex flex-col items-center justify-center my-8">
       <img
         className="w-full md:w-10/12 mx-auto rounded-lg shadow-lg"
