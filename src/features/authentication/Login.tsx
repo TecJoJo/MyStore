@@ -1,8 +1,9 @@
 import { login } from "./authenticationSlice"
-import { useAppDispatch } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 
 function Login() {
   const dispatch = useAppDispatch()
+  const loginState = useAppSelector(state => state.authentication.loginState)
 
   interface LoginFormFields extends HTMLFormControlsCollection {
     email: HTMLInputElement
@@ -24,8 +25,16 @@ function Login() {
     dispatch(login({ email, password }))
   }
 
+  const loginIndicator = (state: typeof loginState) => {
+    if (state === "pending") return <p>Loading...</p>
+    if (state === "succeeded") return <p>Welcome!</p>
+    if (state === "rejected")
+      return <p>Oops! Something went wrong, we failed to log you in</p>
+  }
+
   return (
     <form onSubmit={handleSubmit}>
+      {loginIndicator(loginState)}
       <input type="email" placeholder="Email" name="email" />
       <input type="password" placeholder="Password" name="password" />
       <button type="submit">Login</button>

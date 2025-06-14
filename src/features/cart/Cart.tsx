@@ -1,9 +1,7 @@
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { toggleCart } from "../cart/cartSlice"
 import { IoCloseOutline } from "react-icons/io5"
-import { GiShoppingCart } from "react-icons/gi"
 import ShoppingItem from "./components/ShoppingItem"
-import { useState } from "react"
 
 function Cart() {
   const dispatch = useAppDispatch()

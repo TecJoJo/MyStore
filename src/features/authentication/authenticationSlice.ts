@@ -14,7 +14,7 @@ const initialState: IAuthenticationState = {
 export const login = createAppAsyncThunk(
     "login",
     async ({ email, password }: { email: string; password: string }) => {
-        await loginApiRequest(email, password);
+        await loginApiRequest({ email, password });
     }
 )
 
