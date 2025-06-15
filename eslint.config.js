@@ -57,7 +57,7 @@ const eslintConfig = config(
       "@typescript-eslint/consistent-type-imports": [
         2,
         {
-          prefer: "type-imports",
+          prefer: "no-type-imports",
           fixStyle: "separate-type-imports",
           disallowTypeAnnotations: true,
         },
