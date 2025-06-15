@@ -1,7 +1,4 @@
 import "./App.css"
-import { Counter } from "./features/counter/Counter"
-import { Quotes } from "./features/quotes/Quotes"
-import logo from "./logo.svg"
 import NaviBar from "./features/naviBar/Navibar"
 import Cart from "./features/cart/Cart"
 import Login from "./features/authentication/Login"

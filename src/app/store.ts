@@ -1,8 +1,6 @@
 import { Action, ThunkAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { counterSlice } from "../features/counter/counterSlice"
-// import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
 import { cartSlice } from "../features/cart/cartSlice"
 import { authenticationSlice } from "../features/authentication/authenticationSlice"
 

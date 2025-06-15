@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { loginApiRequest } from "../../api/authentication/loginApiRequest"
 import { createAppAsyncThunk } from "../../app/withTypes";
 
