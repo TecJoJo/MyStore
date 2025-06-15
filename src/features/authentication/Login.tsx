@@ -22,6 +22,7 @@ function Login() {
 
     const password = e.currentTarget.elements.password.value
     console.log("password", password)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(login({ email, password }))
   }
 
