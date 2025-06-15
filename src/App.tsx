@@ -1,26 +1,54 @@
 import "./App.css"
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom"
+
 import NaviBar from "./features/naviBar/Navibar"
 import Cart from "./features/cart/Cart"
 import Login from "./features/authentication/Login"
-export const App = () => (
-  <>
-    <NaviBar />
-    <Login />
-    <div className="flex flex-col items-center justify-center my-8">
-      <img
-        className="w-full md:w-10/12 mx-auto rounded-lg shadow-lg"
-        src="https://plus.unsplash.com/premium_photo-1722069799821-860b3129d252?q=80&w=2618&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Under construction"
-      />
-      <h1 className="text-2xl md:text-3xl font-bold text-center mt-6">
-        This e-commerce site is under construction
-      </h1>
-      <p className="text-lg text-gray-600 text-center mt-2">
-        Stay tuned for updates!
-      </p>
-    </div>
 
-    {/* widgets */}
+import Hero from "./components/landingPage/Hero"
+
+import { useAppSelector } from "./app/hooks"
+
+const DummyAdminDashBoard = () => (
+  <div>This is dashboard and should be visibale only to authenticated user</div>
+)
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const isUserAuthenticated = useAppSelector(
+    state => state.authentication.loginState,
+  )
+  console.log("isUserAuthenticated", isUserAuthenticated)
+  if (isUserAuthenticated === "succeeded") {
+    return children
+  }
+  return <Navigate to={"/"} replace />
+}
+
+export const App = () => (
+  <Router>
+    <NaviBar />
     <Cart />
-  </>
+    <Routes>
+      <Route path="/" element={<Hero />}></Route>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Routes>
+              <Route
+                path="/adminDashboard"
+                element={<DummyAdminDashBoard />}
+              ></Route>
+            </Routes>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  </Router>
 )
