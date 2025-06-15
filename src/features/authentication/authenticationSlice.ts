@@ -3,6 +3,7 @@ import { loginApiRequest } from "../../api/authentication/loginApiRequest"
 import { createAppAsyncThunk } from "../../app/withTypes";
 
 
+
 interface IAuthenticationState {
     loginState: 'idle' | 'pending' | 'succeeded' | 'rejected'
 }
@@ -21,7 +22,9 @@ export const login = createAppAsyncThunk(
 export const authenticationSlice = createSlice({
     name: "authentication",
     initialState,
-    reducers: {},
+    reducers: {
+        resetLoginSate: (state) => { state.loginState = "idle" }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(
@@ -33,6 +36,7 @@ export const authenticationSlice = createSlice({
             .addCase(
                 login.fulfilled,
                 (state) => { state.loginState = "succeeded" }
+
             )
             .addCase(
                 login.rejected,
@@ -43,5 +47,5 @@ export const authenticationSlice = createSlice({
 
     }
 })
-
+export const { resetLoginSate } = authenticationSlice.actions
 export default authenticationSlice.reducer
