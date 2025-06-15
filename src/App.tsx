@@ -5,6 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom"
+import { useEffect } from "react"
 
 import NaviBar from "./features/naviBar/Navibar"
 import Cart from "./features/cart/Cart"
@@ -13,6 +14,9 @@ import Login from "./features/authentication/Login"
 import Hero from "./components/landingPage/Hero"
 
 import { useAppSelector } from "./app/hooks"
+import { useAppDispatch } from "./app/hooks"
+
+import { setAuthenticated } from "./features/authentication/authenticationSlice"
 
 const DummyAdminDashBoard = () => (
   <div>This is dashboard and should be visibale only to authenticated user</div>
@@ -29,26 +33,36 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <Navigate to={"/"} replace />
 }
 
-export const App = () => (
-  <Router>
-    <NaviBar />
-    <Cart />
-    <Routes>
-      <Route path="/" element={<Hero />}></Route>
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/*"
-        element={
-          <ProtectedRoute>
-            <Routes>
-              <Route
-                path="/adminDashboard"
-                element={<DummyAdminDashBoard />}
-              ></Route>
-            </Routes>
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
-  </Router>
-)
+export const App = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem("jwtToken")
+    if (jwtToken) {
+      dispatch(setAuthenticated())
+    }
+  }, [dispatch])
+  return (
+    <Router>
+      <NaviBar />
+      <Cart />
+      <Routes>
+        <Route path="/" element={<Hero />}></Route>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/*"
+          element={
+            <ProtectedRoute>
+              <Routes>
+                <Route
+                  path="adminDashboard"
+                  element={<DummyAdminDashBoard />}
+                ></Route>
+              </Routes>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  )
+}

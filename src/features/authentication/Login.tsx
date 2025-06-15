@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import LoadingSpinner from "./components/LoadingSpinner"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
-import { resetLoginSate } from "./authenticationSlice"
 function Login() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -20,8 +19,6 @@ function Login() {
   useEffect(() => {
     if (loginState === "succeeded") {
       navigate("/")
-      //after user successfully logged in we want to also rest the loginSate
-      dispatch(resetLoginSate())
     }
   }, [loginState, navigate, dispatch])
 
@@ -46,9 +43,9 @@ function Login() {
 
   const isLoggingIn = !!(loginState === "pending")
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen w-full md:w-10/12 mx-auto">
       {/* Left: Login Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white p-8">
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-gray-50 p-8">
         <div className="w-full max-w-sm">
           {FailedOnLoggingIn}
           <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>

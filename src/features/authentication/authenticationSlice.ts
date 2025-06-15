@@ -23,7 +23,13 @@ export const authenticationSlice = createSlice({
     name: "authentication",
     initialState,
     reducers: {
-        resetLoginSate: (state) => { state.loginState = "idle" }
+        setAuthenticated: (state) => {
+            state.loginState = "succeeded"
+        },
+        signOut: (state) => {
+            state.loginState = "idle"
+        }
+
     },
     extraReducers: (builder) => {
         builder
@@ -47,5 +53,5 @@ export const authenticationSlice = createSlice({
 
     }
 })
-export const { resetLoginSate } = authenticationSlice.actions
 export default authenticationSlice.reducer
+export const { setAuthenticated, signOut } = authenticationSlice.actions
