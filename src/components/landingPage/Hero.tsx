@@ -1,3 +1,5 @@
+import Products from "../../features/products/products"
+
 function Hero() {
   return (
     <div className="flex flex-col items-center justify-center my-8">
@@ -12,6 +14,7 @@ function Hero() {
       <p className="text-lg text-gray-600 text-center mt-2">
         Stay tuned for updates!
       </p>
+      <Products />
     </div>
   )
 }

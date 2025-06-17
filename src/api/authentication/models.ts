@@ -1,10 +1,11 @@
-export interface ILoginResponseDTO {
+export interface _LoginResponseDTO {
     jwtToken: string,
     message: string,
 
 }
 
-export interface ILoginRequestDTO {
+export interface _LoginRequestDTO {
     email: string,
     password: string,
 }
+

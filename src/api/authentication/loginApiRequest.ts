@@ -1,16 +1,15 @@
 import axios from "axios"
-import { ILoginRequestDTO, ILoginResponseDTO } from "./model";
-const url = "https://localhost:7172/api/auth/login"
+import { _LoginRequestDTO, _LoginResponseDTO } from "./models";
+import { urls } from "../common/models";
+const url = urls.login
 
 
-export const loginApiRequest = async (body: ILoginRequestDTO) => {
+export const loginApiRequest = async (body: _LoginRequestDTO) => {
     try {
-        const response = await axios.post<ILoginResponseDTO>(url, body)
+        const response = await axios.post<_LoginResponseDTO>(url, body)
 
-        console.log("login response", response);
         if (response.status === 200) {
-            const { jwtToken, message } = response.data;
-            console.log("Login successful:", message);
+            const { jwtToken } = response.data;
             localStorage.setItem("jwtToken", jwtToken);
             return response.data;
         } else {
