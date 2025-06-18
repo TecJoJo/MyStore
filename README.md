@@ -9,6 +9,8 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
 - **User Login/Logout**: JWT-based authentication with secure token storage
 - **Protected Routes**: Admin dashboard accessible only to authenticated users
 - **Persistent Sessions**: Automatic login state restoration from localStorage
+- **Loading States**: Visual feedback during authentication process with loading spinner
+- **Error Handling**: Proper error states for failed authentication attempts
 
 ### 🛒 Shopping Cart
 
@@ -18,21 +20,33 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
   - €9.99 for orders under €29
   - €3.99 for orders €29-€49.99
   - Free delivery for orders €50+
-- **Sliding Cart Panel**: Toggle cart visibility
+- **Sliding Cart Panel**: Toggle cart visibility with smooth animations
+- **Item Details**: Display color, size, discount information, and images
+- **Empty Cart State**: Elegant messaging when cart is empty
+- **Quantity Controls**: Increment/decrement item quantities with instant feedback
+
+### 📦 Product Catalog
+
+- **Product Display**: Interactive grid layout with hover effects
+- **Product Information**: Name, description, price, category, stock levels, and images
+- **API Integration**: Real-time product data fetching from backend
+- **Responsive Cards**: Mobile-friendly product display with smooth transitions
+- **Image Optimization**: Proper alt text and responsive image handling
 
 ### 🎨 User Interface
 
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Modern Navigation**: Clean navigation bar with active link highlighting
+- **Modern Navigation**: Clean navigation bar with active link highlighting and sign-out functionality
 - **Loading States**: Spinner component for async operations
-- **Hero Landing Page**: Under construction notice with appealing visuals
+- **Hero Landing Page**: Under construction notice with appealing visuals and embedded product showcase
+- **Smooth Animations**: Hover effects, transitions, and interactive feedback
 
 ### 🏗️ Architecture
 
-- **Redux Toolkit**: Centralized state management with RTK slices
-- **React Router**: Client-side routing with protected routes
-- **TypeScript**: Full type safety across the application
-- **Component-based**: Modular and reusable component structure
+- **Redux Toolkit**: Centralized state management with RTK slices for cart, authentication, and products
+- **React Router**: Client-side routing with protected routes and navigation guards
+- **TypeScript**: Full type safety across the application with proper interfaces
+- **Component-based**: Modular and reusable component structure with feature-based organization
 
 ## 🛠️ Tech Stack
 
@@ -59,17 +73,23 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
 
 ### Development Tools
 
-- **ESLint 9.23.0** - Code linting
+- **ESLint 9.23.0** - Code linting with TypeScript support
 - **Prettier 3.5.3** - Code formatting
+- **TypeScript ESLint 8.29.0** - TypeScript-specific linting rules
 
 ## 📁 Project Structure
 
 ```
 src/
 ├── api/                          # API layer
-│   └── authentication/
-│       ├── loginApiRequest.ts    # Login API call
-│       └── model.ts              # API data models
+│   ├── authentication/
+│   │   ├── loginApiRequest.ts    # Login API call
+│   │   └── models.ts             # Auth API data models
+│   ├── Products/
+│   │   ├── getAllProductsApiRequest.ts # Fetch all products
+│   │   └── models.ts             # Product API data models
+│   └── common/
+│       └── models.ts             # Common API types and URLs
 ├── app/                          # Redux store configuration
 │   ├── store.ts                  # Main store setup
 │   ├── hooks.ts                  # Typed Redux hooks
@@ -77,27 +97,33 @@ src/
 │   └── createAppSlice.ts         # App-specific slice creator
 ├── components/                   # Reusable UI components
 │   └── landingPage/
-│       └── Hero.tsx              # Landing page hero section
+│       └── Hero.tsx              # Landing page hero section with products
 ├── features/                     # Feature-based modules
 │   ├── authentication/          # Auth feature
-│   │   ├── authenticationSlice.ts
-│   │   ├── Login.tsx
+│   │   ├── authenticationSlice.ts # Auth state management
+│   │   ├── Login.tsx             # Login form component
 │   │   ├── components/
-│   │   │   └── LoadingSpinner.tsx
+│   │   │   └── LoadingSpinner.tsx # Loading indicator
 │   │   ├── models/               # Auth-related types
 │   │   └── utils/                # Auth utilities
 │   ├── cart/                     # Shopping cart feature
-│   │   ├── cartSlice.ts
-│   │   ├── Cart.tsx
+│   │   ├── cartSlice.ts          # Cart state management
+│   │   ├── Cart.tsx              # Cart panel component
 │   │   ├── components/
-│   │   │   └── ShoppingItem.tsx
+│   │   │   └── ShoppingItem.tsx  # Individual cart item
 │   │   └── utils/
-│   │       └── constants.ts
+│   │       └── constants.ts      # Cart constants and temp data
 │   ├── naviBar/                  # Navigation feature
-│   │   ├── Navibar.tsx
+│   │   ├── Navibar.tsx           # Main navigation component
 │   │   └── components/
-│   └── products/                 # Products feature (planned)
-│       └── overview.md           # Feature planning docs
+│   └── products/                 # Products feature
+│       ├── Products.tsx          # Product listing component
+│       ├── productsSlice.ts      # Product state management
+│       ├── overview.md           # Feature planning documentation
+│       ├── components/
+│       │   └── SingleProduct.tsx # Individual product card
+│       └── utils/
+│           └── getAllProductsResponseDtoToProductMap.ts # Data mapping utility
 └── utils/                        # Global utilities
     └── test-utils.tsx            # Testing utilities
 ```
@@ -146,6 +172,7 @@ This frontend application connects to the MyStore backend API:
 ### API Endpoints Used
 
 - `POST /api/auth/login` - User authentication
+- `GET /api/products/allproducts` - Fetch all products
 
 ## 🎯 Current Status
 
@@ -155,27 +182,26 @@ This e-commerce application is currently in active development. Implemented feat
 
 ✅ **Completed**
 
-- User authentication system
-- Shopping cart functionality
-- Responsive navigation
-- Basic routing structure
-- Redux state management setup
+- **Authentication System**: Full JWT-based login/logout with persistent sessions
+- **Shopping Cart**: Complete cart functionality with quantity management and smart delivery pricing
+- **Product Catalog**: Basic product display with API integration and responsive design
+- **Navigation**: Responsive navigation bar with conditional login/logout display
+- **Redux State Management**: Complete setup with authentication, cart, and products slices
+- **TypeScript Integration**: Full type safety across the
 
 🔄 **In Progress**
 
-- Product catalog system
-- Product filtering and search
-- User profile management
-- Order management
+- **Product Features**: Enhanced product filtering and search capabilities
+- **Cart Integration**: Connect cart to backend API for persistence
 
 📋 **Planned Features**
 
-- Product reviews and ratings
-- Wishlist functionality
-- Payment integration
-- Order history
-- Admin dashboard enhancements
-- Multi-language support
+- **Advanced Search**: Filtering by category, price range, and attributes
+- **Checkout Process**: Payment integration and order processing
+- **User Profile Management**: Account settings and order history
+- **Product Reviews**: Rating and review system
+- **Wishlist Functionality**: Save products for later
+- **Admin Dashboard**: Enhanced administrative features
 
 ```bash
 # Run tests
@@ -183,6 +209,21 @@ npm run test
 
 # Run tests in watch mode
 npm run test -- --watch
+
+# Run linting
+npm run lint
+
+# Fix linting issues
+npm run lint:fix
+
+# Format code
+npm run format
+
+# Check formatting
+npm run format:check
+
+# Type checking
+npm run type-check
 ```
 
 ## 🔧 Configuration

@@ -1,4 +1,4 @@
-import Products from "../../features/products/products"
+import Products from "../../features/products/Products"
 
 function Hero() {
   return (
