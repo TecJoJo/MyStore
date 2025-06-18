@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getAllProducts } from "./productsSlice"
 import { useEffect } from "react"
+import SingleProduct from "./components/SingleProduct"
 
 function Products() {
   const dispatch = useAppDispatch()
@@ -12,7 +13,18 @@ function Products() {
     dispatch(getAllProducts())
   }, [dispatch])
 
-  return <div>products</div>
+  return (
+    <div className="flex flex-wrap gap-4 align-center">
+      {allProducts.map(product => (
+        <SingleProduct
+          key={product.id}
+          name={product.name}
+          price={product.price}
+          imageUrl={product.imageUrl}
+        />
+      ))}
+    </div>
+  )
 }
 
 export default Products
