@@ -14,7 +14,7 @@ function Products() {
   }, [dispatch])
 
   return (
-    <div className="flex flex-wrap gap-4 align-center">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-stretch">
       {allProducts.map(product => (
         <SingleProduct
           key={product.id}

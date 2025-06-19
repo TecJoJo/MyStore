@@ -16,43 +16,18 @@ function NaviBar() {
   }
   return (
     <div className="flex w-8/12 justify-center mx-auto">
-      <NavLink
-        to="/"
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        Home
-      </NavLink>
-      <NavLink
-        to="/about"
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        About
-      </NavLink>
-      <NavLink
-        to="/contact"
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        Contact
-      </NavLink>
-
-      <NavLink
-        to="/adminDashboard"
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        Admin
-      </NavLink>
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/about">About</NavLink>
+      <NavLink to="/contact">Contact</NavLink>
+      <NavLink to="/allProducts">Products</NavLink>
+      <NavLink to="/adminDashboard">Admin</NavLink>
 
       {isUserLoggedIn ? (
         <button onClick={signOut}>
           <p>Sign Out</p>
         </button>
       ) : (
-        <NavLink
-          to="/login"
-          className={({ isActive }) => (isActive ? "active-link" : "")}
-        >
-          Login
-        </NavLink>
+        <NavLink to="/login">Login</NavLink>
       )}
 
       <h1>My Store</h1>
