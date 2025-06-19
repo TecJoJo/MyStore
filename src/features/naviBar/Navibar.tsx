@@ -19,7 +19,7 @@ function NaviBar() {
       <NavLink to="/">Home</NavLink>
       <NavLink to="/about">About</NavLink>
       <NavLink to="/contact">Contact</NavLink>
-      <NavLink to="/allProducts">Products</NavLink>
+      <NavLink to="/Products">Products</NavLink>
       <NavLink to="/adminDashboard">Admin</NavLink>
 
       {isUserLoggedIn ? (

@@ -17,6 +17,7 @@ function Products() {
     <div className="w-full md:w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-stretch">
       {allProducts.map(product => (
         <SingleProduct
+          id={product.id}
           key={product.id}
           name={product.name}
           price={product.price}
