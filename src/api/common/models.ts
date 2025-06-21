@@ -1,7 +1,7 @@
 export const urls = {
-  login: "https://localhost:7172/api/auth/login",
-  register: "https://localhost:7172/api/auth/register",
-  getAllProducts: "https://localhost:7172/api/products/allproducts",
+  login: "http://localhost:5146/api/auth/login",
+  register: "http://localhost:5146/api/auth/register",
+  getAllProducts: "http://localhost:5146/api/products/allproducts",
 }
 
 export interface ApiResponse<T> {

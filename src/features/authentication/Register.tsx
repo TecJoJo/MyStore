@@ -26,7 +26,7 @@ function Register() {
 
   const failedOnRegistering = registerSate === "rejected" && (
     <div
-      test-id="register-failed-status"
+      data-cy="register-failed-status"
       className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center"
     >
       Failed to register. Please check your email and password.
@@ -34,7 +34,7 @@ function Register() {
   )
 
   const succeededOnRegistering = registerSate === "succeeded" && (
-    <div test-id="register-succeeded-status">
+    <div data-cy="register-succeeded-status">
       <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
         Registration successful! You can now log in.
       </div>
@@ -87,7 +87,7 @@ function Register() {
                 type="email"
                 className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1"
                 name="email"
-                test-id="register-email"
+                data-cy="register-email"
               />
             </div>
             <div>
@@ -97,7 +97,7 @@ function Register() {
                   type="password"
                   className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1 pr-8"
                   name="password"
-                  test-id="register-password"
+                  data-cy="register-password"
                 />
               </div>
               {/* loading indicator */}
@@ -107,7 +107,7 @@ function Register() {
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:opacity-90"
-              test-id="register-submit"
+              data-cy="register-submit"
             >
               Sign Up
             </button>
@@ -116,7 +116,7 @@ function Register() {
             Already Have An Account?{" "}
             <a
               href="/login"
-              test-id="register-anchor-login"
+              data-cy="register-anchor-login"
               className="text-[#c5a880] hover:underline"
             >
               Login in here

@@ -34,7 +34,7 @@ function Login() {
 
   const FailedOnLoggingIn = loginState === "rejected" && (
     <div
-      test-id="login-failed-status"
+      data-cy="login-failed-status"
       className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center"
     >
       Failed to log in. Please check your email and password.
@@ -56,7 +56,7 @@ function Login() {
                 type="email"
                 className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1"
                 name="email"
-                test-id="login-email"
+                data-cy="login-email"
               />
             </div>
             <div>
@@ -66,7 +66,7 @@ function Login() {
                   type="password"
                   className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1 pr-8"
                   name="password"
-                  test-id="login-password"
+                  data-cy="login-password"
                 />
               </div>
               {/* loading indicator */}
@@ -75,7 +75,7 @@ function Login() {
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:opacity-90"
-              test-id="login-submit"
+              data-cy="login-submit"
             >
               Login
             </button>
@@ -83,7 +83,7 @@ function Login() {
           <p className="mt-4 text-center text-sm">
             Don’t Have An Account?{" "}
             <a
-              test-id="login-anchor-signUp"
+              data-cy="login-anchor-signUp"
               href="register"
               className="text-[#c5a880] hover:underline"
             >

@@ -16,35 +16,35 @@ function NaviBar() {
   }
   return (
     <div className="flex w-8/12 justify-center mx-auto">
-      <NavLink to="/" test-id="navibar-home">
+      <NavLink to="/" data-cy="navibar-home">
         Home
       </NavLink>
-      <NavLink to="/about" test-id="navibar-about">
+      <NavLink to="/about" data-cy="navibar-about">
         About
       </NavLink>
-      <NavLink to="/contact" test-id="navibar-contact">
+      <NavLink to="/contact" data-cy="navibar-contact">
         Contact
       </NavLink>
-      <NavLink to="/Products" test-id="navibar-products">
+      <NavLink to="/Products" data-cy="navibar-products">
         Products
       </NavLink>
-      <NavLink to="/adminDashboard" test-id="navibar-admin">
+      <NavLink to="/adminDashboard" data-cy="navibar-admin">
         Admin
       </NavLink>
 
       {isUserLoggedIn ? (
-        <button onClick={signOut} test-id="navibar-signout">
+        <button onClick={signOut} data-cy="navibar-signout">
           <p>Sign Out</p>
         </button>
       ) : (
-        <NavLink to="/login" test-id="navibar-login">
+        <NavLink to="/login" data-cy="navibar-login">
           Login
         </NavLink>
       )}
 
       <h1>My Store</h1>
 
-      <button onClick={() => dispatch(toggleCart())} test-id="navibar-cart">
+      <button onClick={() => dispatch(toggleCart())} data-cy="navibar-cart">
         Cart
       </button>
     </div>

@@ -36,42 +36,42 @@ function ShoppingItem({
         src={imageUrl}
         alt={name}
         className="w-1/4 h-24 object-cover rounded-md mr-4"
-        test-id="shoppingItem-image"
+        data-cy="shoppingItem-image"
       />
       <div>
         <h2
           className="font-serif text-lg font-semibold"
-          test-id="shoppingItem-name"
+          data-cy="shoppingItem-name"
         >
           {name}
         </h2>
         <p
           className="font-mono text-sm text-gray-600"
-          test-id="shoppingItem-color"
+          data-cy="shoppingItem-color"
         >
           Color: {color}
         </p>
         <p
           className="font-mono text-sm text-gray-600"
-          test-id="shoppingItem-size"
+          data-cy="shoppingItem-size"
         >
           Size: {size}
         </p>
         <div className="flex flex-row justify-between items-center">
           <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
-            <span test-id="shoppingItem-quantity">Quantity: {quantity}</span>
+            <span data-cy="shoppingItem-quantity">Quantity: {quantity}</span>
             <span className="flex flex-col ml-1">
               <button
                 className="hover:bg-zinc-200"
                 onClick={() => dispatch(increaseCartItemQuantity(id))}
-                test-id="shoppingItem-quantity-increase"
+                data-cy="shoppingItem-quantity-increase"
               >
                 <FaSortUp />
               </button>
               <button
                 className="hover:bg-zinc-200"
                 onClick={() => dispatch(decreaseCartItemQuantity(id))}
-                test-id="shoppingItem-quantity-decrease"
+                data-cy="shoppingItem-quantity-decrease"
               >
                 <FaSortDown />
               </button>
@@ -80,7 +80,7 @@ function ShoppingItem({
           <p
             className="mx-1 cursor-pointer hover:text-red-700"
             onClick={() => dispatch(deleteCartItem(id))}
-            test-id="shoppingItem-delete"
+            data-cy="shoppingItem-delete"
           >
             <RiDeleteBin5Line />
           </p>
@@ -88,7 +88,7 @@ function ShoppingItem({
 
         <p
           className="text-md font-semibold font-monospace"
-          test-id="shoppingItem-price"
+          data-cy="shoppingItem-price"
         >
           Price: €
           {discount

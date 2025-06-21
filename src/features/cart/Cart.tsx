@@ -40,7 +40,7 @@ function Cart() {
   const emptyCart = (
     <p
       className="w-full my-24 text-center font-semibold text-lg font-serif"
-      test-id="empty-cart-message"
+      data-cy="empty-cart-message"
     >
       Your cart is empty
     </p>
@@ -52,7 +52,7 @@ function Cart() {
       <div className=" mx-4 mt-4 mb-8 flex justify-between align-middle">
         <p
           className=" font-bold font-serif text-xl my-auto uppercase"
-          test-id="cart-title"
+          data-cy="cart-title"
         >
           Cart [ {cartItems.reduce((total, item) => total + item.quantity, 0)} ]
         </p>
@@ -60,7 +60,7 @@ function Cart() {
           className="hover:bg-zinc-100"
           type="button"
           onClick={() => dispatch(toggleCart())}
-          test-id="cart-close-button"
+          data-cy="cart-close-button"
         >
           <IoCloseOutline size="2rem" />
         </button>
@@ -70,7 +70,7 @@ function Cart() {
         <p>Delivery: </p>
         <p
           className="text-base font-normal font-monospace"
-          test-id="cart-delivery-price"
+          data-cy="cart-delivery-price"
         >
           {cartTotal ? deliveryPrice.toFixed(2) : "0.00"} €
         </p>
@@ -79,7 +79,7 @@ function Cart() {
         <p>Total: </p>
         <p
           className="text-base font-normal font-monospace"
-          test-id="cart-total-price"
+          data-cy="cart-total-price"
         >
           {cartTotal ? (cartTotal + deliveryPrice).toFixed(2) : "0.00"} €
         </p>
@@ -87,7 +87,7 @@ function Cart() {
       <div className="flex justify-center items-center m-8">
         <button
           className="w-10/12 bg-zinc-700 text-white py-2 px-4 rounded-full hover:bg-zinc-900"
-          test-id="cart-checkout-button"
+          data-cy="cart-checkout-button"
         >
           <p
             className="text-lg font-semibold font-monospace "
