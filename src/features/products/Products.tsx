@@ -14,7 +14,7 @@ function Products() {
   }, [dispatch])
 
   return (
-    <div className="w-full md:w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-stretch">
+    <div className="w-full my-4 md:my-8 md:w-10/12 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-stretch">
       {allProducts.map(product => (
         <SingleProduct
           id={product.id}
