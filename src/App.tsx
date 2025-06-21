@@ -10,6 +10,8 @@ import { useEffect } from "react"
 import NaviBar from "./features/naviBar/Navibar"
 import Cart from "./features/cart/Cart"
 import Login from "./features/authentication/Login"
+import Products from "./features/products/Products"
+import ProductDetail from "./features/products/ProductDetail"
 
 import Hero from "./components/landingPage/Hero"
 
@@ -49,13 +51,15 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Hero />}></Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/productDetail/:productId" element={<ProductDetail />} />
         <Route
-          path="/*"
+          path="/admin/*"
           element={
             <ProtectedRoute>
               <Routes>
                 <Route
-                  path="adminDashboard"
+                  path="admin/dashboard"
                   element={<DummyAdminDashBoard />}
                 ></Route>
               </Routes>
