@@ -9,15 +9,7 @@ interface Props {
   stock?: number
 }
 
-function SingleProduct({
-  id,
-  name,
-  description,
-  price,
-  imageUrl,
-  category,
-  stock,
-}: Props) {
+function SingleProduct({ id, name, price, imageUrl }: Props) {
   return (
     <Link to={`/productDetail/${id}`}>
       <div className="w-full h-full relative group ">

@@ -1,57 +1,45 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 import { loginApiRequest } from "../../api/authentication/loginApiRequest"
-import { createAppAsyncThunk } from "../../app/withTypes";
-
-
+import { createAppAsyncThunk } from "../../app/withTypes"
 
 interface IAuthenticationState {
-    loginState: 'idle' | 'pending' | 'succeeded' | 'rejected'
+  loginState: "idle" | "pending" | "succeeded" | "rejected"
 }
 
 const initialState: IAuthenticationState = {
-    loginState: "idle"
+  loginState: "idle",
 }
 
 export const login = createAppAsyncThunk(
-    "login",
-    async ({ email, password }: { email: string; password: string }) => {
-        await loginApiRequest({ email, password });
-    }
+  "login",
+  async ({ email, password }: { email: string; password: string }) => {
+    await loginApiRequest({ email, password })
+  },
 )
 
 export const authenticationSlice = createSlice({
-    name: "authentication",
-    initialState,
-    reducers: {
-        setAuthenticated: (state) => {
-            state.loginState = "succeeded"
-        },
-        signOut: (state) => {
-            state.loginState = "idle"
-        }
-
+  name: "authentication",
+  initialState,
+  reducers: {
+    setAuthenticated: state => {
+      state.loginState = "succeeded"
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(
-                login.pending,
-                (state) => {
-                    state.loginState = "pending"
-                }
-            )
-            .addCase(
-                login.fulfilled,
-                (state) => { state.loginState = "succeeded" }
-
-            )
-            .addCase(
-                login.rejected,
-                (state) => {
-                    state.loginState = "rejected"
-                }
-            )
-
-    }
+    signOut: state => {
+      state.loginState = "idle"
+    },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(login.pending, state => {
+        state.loginState = "pending"
+      })
+      .addCase(login.fulfilled, state => {
+        state.loginState = "succeeded"
+      })
+      .addCase(login.rejected, state => {
+        state.loginState = "rejected"
+      })
+  },
 })
 export default authenticationSlice.reducer
 export const { setAuthenticated, signOut } = authenticationSlice.actions
