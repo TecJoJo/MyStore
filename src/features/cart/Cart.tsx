@@ -48,6 +48,7 @@ function Cart() {
   return (
     <div
       className={`w-full z-50 bg-zinc-50  absolute top-0 right-0 mx-auto ${isCartOpen ? "block" : "hidden"} md:w-1/4`}
+      data-cy="cart-container"
     >
       <div className=" mx-4 mt-4 mb-8 flex justify-between align-middle">
         <p

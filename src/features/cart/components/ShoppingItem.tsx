@@ -31,7 +31,7 @@ function ShoppingItem({
   const dispatch = useAppDispatch()
 
   return (
-    <div className="mx-4 my-2 w-full flex">
+    <div className="mx-4 my-2 w-full flex" data-cy="shoppingItem-container">
       <img
         src={imageUrl}
         alt={name}
