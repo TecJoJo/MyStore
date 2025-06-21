@@ -29,7 +29,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isUserAuthenticated = useAppSelector(
     state => state.authentication.loginState,
   )
-  console.log("isUserAuthenticated", isUserAuthenticated)
   if (isUserAuthenticated === "succeeded") {
     return children
   }

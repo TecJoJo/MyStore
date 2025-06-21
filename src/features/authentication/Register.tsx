@@ -5,7 +5,6 @@ import { useState } from "react"
 import { registerApiRequest } from "../../api/authentication/registerApiRequest"
 function Register() {
   const navigate = useNavigate()
-  console.log("Register component rendered")
 
   type RegisterState = "idle" | "pending" | "succeeded" | "rejected"
 
@@ -26,20 +25,23 @@ function Register() {
   })
 
   const failedOnRegistering = registerSate === "rejected" && (
-    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center">
+    <div
+      test-id="register-failed-status"
+      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center"
+    >
       Failed to register. Please check your email and password.
     </div>
   )
 
   const succeededOnRegistering = registerSate === "succeeded" && (
-    <>
+    <div test-id="register-succeeded-status">
       <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
         Registration successful! You can now log in.
       </div>
       <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
         Redirecting to login page...
       </div>
-    </>
+    </div>
   )
 
   interface RegisterFormFields extends HTMLFormControlsCollection {
@@ -57,17 +59,14 @@ function Register() {
     const password = e.currentTarget.elements.password.value
 
     setRegisterState("pending")
-    console.log("setting register state to pending")
 
     registerApiRequest({ email, password })
       .then(() => {
         setRegisterState("succeeded")
-        console.log("Setting register state to succeeded")
       })
       .catch((error: unknown) => {
         console.error("Registration failed:", error)
         setRegisterState("rejected")
-        console.log("Setting register state to rejected")
       })
   }
 
@@ -88,6 +87,7 @@ function Register() {
                 type="email"
                 className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1"
                 name="email"
+                test-id="register-email"
               />
             </div>
             <div>
@@ -97,30 +97,28 @@ function Register() {
                   type="password"
                   className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1 pr-8"
                   name="password"
+                  test-id="register-password"
                 />
               </div>
               {/* loading indicator */}
               {isRegistering && <LoadingSpinner />}
             </div>
-            {/* <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                Remember Me
-              </label>
-              <a href="#" className="text-[#c5a880] hover:underline">
-                Forgot Password
-              </a>
-            </div> */}
+
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:opacity-90"
+              test-id="register-submit"
             >
               Sign Up
             </button>
           </form>
           <p className="mt-4 text-center text-sm">
             Already Have An Account?{" "}
-            <a href="/login" className="text-[#c5a880] hover:underline">
+            <a
+              href="/login"
+              test-id="register-anchor-login"
+              className="text-[#c5a880] hover:underline"
+            >
               Login in here
             </a>
           </p>

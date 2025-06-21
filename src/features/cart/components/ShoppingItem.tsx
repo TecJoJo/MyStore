@@ -36,24 +36,42 @@ function ShoppingItem({
         src={imageUrl}
         alt={name}
         className="w-1/4 h-24 object-cover rounded-md mr-4"
+        test-id="shoppingItem-image"
       />
       <div>
-        <h2 className="font-serif text-lg font-semibold">{name}</h2>
-        <p className="font-mono text-sm text-gray-600">Color: {color}</p>
-        <p className="font-mono text-sm text-gray-600">Size: {size}</p>
+        <h2
+          className="font-serif text-lg font-semibold"
+          test-id="shoppingItem-name"
+        >
+          {name}
+        </h2>
+        <p
+          className="font-mono text-sm text-gray-600"
+          test-id="shoppingItem-color"
+        >
+          Color: {color}
+        </p>
+        <p
+          className="font-mono text-sm text-gray-600"
+          test-id="shoppingItem-size"
+        >
+          Size: {size}
+        </p>
         <div className="flex flex-row justify-between items-center">
           <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
-            <span>Quantity: {quantity}</span>
+            <span test-id="shoppingItem-quantity">Quantity: {quantity}</span>
             <span className="flex flex-col ml-1">
               <button
                 className="hover:bg-zinc-200"
                 onClick={() => dispatch(increaseCartItemQuantity(id))}
+                test-id="shoppingItem-quantity-increase"
               >
                 <FaSortUp />
               </button>
               <button
                 className="hover:bg-zinc-200"
                 onClick={() => dispatch(decreaseCartItemQuantity(id))}
+                test-id="shoppingItem-quantity-decrease"
               >
                 <FaSortDown />
               </button>
@@ -62,12 +80,16 @@ function ShoppingItem({
           <p
             className="mx-1 cursor-pointer hover:text-red-700"
             onClick={() => dispatch(deleteCartItem(id))}
+            test-id="shoppingItem-delete"
           >
             <RiDeleteBin5Line />
           </p>
         </div>
 
-        <p className="text-md font-semibold font-monospace">
+        <p
+          className="text-md font-semibold font-monospace"
+          test-id="shoppingItem-price"
+        >
           Price: €
           {discount
             ? (price * (1 - discount) * quantity).toFixed(2)

@@ -6,7 +6,6 @@ import SingleProduct from "./components/SingleProduct"
 function Products() {
   const dispatch = useAppDispatch()
   const allProducts = useAppSelector(state => state.products.products)
-  console.log("allProducts", allProducts)
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

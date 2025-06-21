@@ -38,22 +38,29 @@ function Cart() {
   ))
 
   const emptyCart = (
-    <p className="w-full my-24 text-center font-semibold text-lg font-serif">
+    <p
+      className="w-full my-24 text-center font-semibold text-lg font-serif"
+      test-id="empty-cart-message"
+    >
       Your cart is empty
     </p>
   )
   return (
     <div
-      className={`w-full bg-zinc-50  absolute top-0 right-0 mx-auto ${isCartOpen ? "block" : "hidden"} md:w-1/4`}
+      className={`w-full z-50 bg-zinc-50  absolute top-0 right-0 mx-auto ${isCartOpen ? "block" : "hidden"} md:w-1/4`}
     >
       <div className=" mx-4 mt-4 mb-8 flex justify-between align-middle">
-        <p className=" font-bold font-serif text-xl my-auto uppercase">
+        <p
+          className=" font-bold font-serif text-xl my-auto uppercase"
+          test-id="cart-title"
+        >
           Cart [ {cartItems.reduce((total, item) => total + item.quantity, 0)} ]
         </p>
         <button
           className="hover:bg-zinc-100"
           type="button"
           onClick={() => dispatch(toggleCart())}
+          test-id="cart-close-button"
         >
           <IoCloseOutline size="2rem" />
         </button>
@@ -61,18 +68,27 @@ function Cart() {
       {cartItems.length === 0 ? emptyCart : shoppingItems}
       <div className="text-md font-semibold font-serif flex justify-between items-center m-4">
         <p>Delivery: </p>
-        <p className="text-base font-normal font-monospace">
+        <p
+          className="text-base font-normal font-monospace"
+          test-id="cart-delivery-price"
+        >
           {cartTotal ? deliveryPrice.toFixed(2) : "0.00"} €
         </p>
       </div>
       <div className="text-md font-semibold font-serif flex justify-between items-center m-4">
         <p>Total: </p>
-        <p className="text-base font-normal font-monospace">
+        <p
+          className="text-base font-normal font-monospace"
+          test-id="cart-total-price"
+        >
           {cartTotal ? (cartTotal + deliveryPrice).toFixed(2) : "0.00"} €
         </p>
       </div>
       <div className="flex justify-center items-center m-8">
-        <button className="w-10/12 bg-zinc-700 text-white py-2 px-4 rounded-full hover:bg-zinc-900">
+        <button
+          className="w-10/12 bg-zinc-700 text-white py-2 px-4 rounded-full hover:bg-zinc-900"
+          test-id="cart-checkout-button"
+        >
           <p
             className="text-lg font-semibold font-monospace "
             //TODO: Checkout should checkout, and cart toggling should be a side effect

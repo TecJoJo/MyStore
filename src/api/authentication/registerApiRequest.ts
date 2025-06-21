@@ -4,8 +4,6 @@ import { urls } from "../common/models"
 const url = urls.register
 
 export const registerApiRequest = async (body: _RegisterRequestDTO) => {
-  console.log("registerApiRequest request is called")
-
   try {
     const response = await axios.post<_RegisterResponseDto>(url, body)
 

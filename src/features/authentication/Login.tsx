@@ -24,19 +24,19 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent<LoginFormElement>) => {
     e.preventDefault()
-    console.log("form submitted")
 
     const email = e.currentTarget.elements.email.value
-    console.log("email", email)
 
     const password = e.currentTarget.elements.password.value
-    console.log("password", password)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(login({ email, password }))
   }
 
   const FailedOnLoggingIn = loginState === "rejected" && (
-    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center">
+    <div
+      test-id="login-failed-status"
+      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center"
+    >
       Failed to log in. Please check your email and password.
     </div>
   )
@@ -56,6 +56,7 @@ function Login() {
                 type="email"
                 className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1"
                 name="email"
+                test-id="login-email"
               />
             </div>
             <div>
@@ -65,30 +66,27 @@ function Login() {
                   type="password"
                   className="w-full border-b border-gray-400 focus:outline-none focus:border-black py-1 pr-8"
                   name="password"
+                  test-id="login-password"
                 />
               </div>
               {/* loading indicator */}
               {isLoggingIn && <LoadingSpinner />}
             </div>
-            {/* <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                Remember Me
-              </label>
-              <a href="#" className="text-[#c5a880] hover:underline">
-                Forgot Password
-              </a>
-            </div> */}
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:opacity-90"
+              test-id="login-submit"
             >
               Login
             </button>
           </form>
           <p className="mt-4 text-center text-sm">
             Don’t Have An Account?{" "}
-            <a href="register" className="text-[#c5a880] hover:underline">
+            <a
+              test-id="login-anchor-signUp"
+              href="register"
+              className="text-[#c5a880] hover:underline"
+            >
               Sign Up
             </a>
           </p>

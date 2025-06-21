@@ -26,10 +26,12 @@ function ProductDetail() {
     (imgUrl): imgUrl is string => !!imgUrl,
   )
 
-  console.log("ProductDetail rendered")
   const noProductFound = (
     <div>
-      <p className="my-24 font-bold text-lg font-serif">
+      <p
+        className="my-24 font-bold text-lg font-serif"
+        test-id="no-product-found-message"
+      >
         Oops! Something is wrong, the product you are looking for is not
         found...
       </p>
@@ -42,11 +44,21 @@ function ProductDetail() {
         noProductFound
       ) : (
         <>
-          <div className="embla w-full md:w-1/2" ref={emblaRef}>
-            <div className="embla__container w-full ">
+          <div
+            className="embla w-full md:w-1/2"
+            ref={emblaRef}
+            test-id="productDetail-carousel"
+          >
+            <div
+              className="embla__container w-full"
+              test-id="productDetail-carousel-container"
+            >
               {carouselImages.map(imgUrl => {
                 return (
-                  <div className="embla__slide w-full">
+                  <div
+                    className="embla__slide w-full"
+                    test-id="productDetail-carousel-slide"
+                  >
                     <img src={imgUrl} className="object-cover w-full" />
                   </div>
                 )
@@ -54,17 +66,34 @@ function ProductDetail() {
             </div>
           </div>
           <div className="mx-4 md:mx-8 flex flex-col ">
-            <h1 className="text-2xl md:text-4xl font-bold mb-4">
+            <h1
+              className="text-2xl md:text-4xl font-bold mb-4"
+              test-id="productDetail-name"
+            >
               {product.name}
             </h1>
-            <p className="text-lg md:text-xl mb-4">{product.description}</p>
-            <p className="text-lg md:text-xl font-semibold mb-4">
+            <p
+              className="text-lg md:text-xl mb-4"
+              test-id="productDetail-description"
+            >
+              {product.description}
+            </p>
+            <p
+              className="text-lg md:text-xl font-semibold mb-4"
+              test-id="productDetail-price"
+            >
               Price: ${product.price.toFixed(2)}
             </p>
-            <p className="text-lg md:text-xl mb-4">
+            <p
+              className="text-lg md:text-xl mb-4"
+              test-id="productDetail-category"
+            >
               Category: {product.category}
             </p>
-            <p className="text-lg md:text-xl mb-4">
+            <p
+              className="text-lg md:text-xl mb-4"
+              test-id="productDetail-stock"
+            >
               Stock: {product.stock} items available
             </p>
           </div>
