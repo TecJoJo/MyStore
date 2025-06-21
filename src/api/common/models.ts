@@ -1,14 +1,12 @@
 export const urls = {
-    login: "https://localhost:7172/api/auth/login",
-    getAllProducts: "https://localhost:7172/api/products/allproducts"
-
-
+  login: "https://localhost:7172/api/auth/login",
+  register: "https://localhost:7172/api/auth/register",
+  getAllProducts: "https://localhost:7172/api/products/allproducts",
 }
 
-
 export interface ApiResponse<T> {
-    message: string;
-    success: boolean;
-    data: T;
-    errors: string[];
+  message: string
+  success: boolean
+  data: T
+  errors: string[]
 }

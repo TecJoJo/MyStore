@@ -1,54 +1,86 @@
-import { login } from "./authenticationSlice"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import LoadingSpinner from "./components/LoadingSpinner"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
-function Login() {
-  const dispatch = useAppDispatch()
+import { useState } from "react"
+import { registerApiRequest } from "../../api/authentication/registerApiRequest"
+function Register() {
   const navigate = useNavigate()
-  const loginState = useAppSelector(state => state.authentication.loginState)
+  console.log("Register component rendered")
 
-  interface LoginFormFields extends HTMLFormControlsCollection {
-    email: HTMLInputElement
-    password: HTMLInputElement
-  }
-  interface LoginFormElement extends HTMLFormElement {
-    readonly elements: LoginFormFields
-  }
+  type RegisterState = "idle" | "pending" | "succeeded" | "rejected"
+
+  const [registerSate, setRegisterState] = useState<RegisterState>("idle")
 
   useEffect(() => {
-    if (loginState === "succeeded") {
-      navigate("/")
+    // Reset the register state when the component mounts
+    setRegisterState("idle")
+  }, [])
+
+  useEffect(() => {
+    if (registerSate === "succeeded") {
+      // Redirect to login page after successful registration after a short delay
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000)
     }
-  }, [loginState, navigate, dispatch])
+  })
 
-  const handleSubmit = (e: React.FormEvent<LoginFormElement>) => {
-    e.preventDefault()
-    console.log("form submitted")
-
-    const email = e.currentTarget.elements.email.value
-    console.log("email", email)
-
-    const password = e.currentTarget.elements.password.value
-    console.log("password", password)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(login({ email, password }))
-  }
-
-  const FailedOnLoggingIn = loginState === "rejected" && (
+  const failedOnRegistering = registerSate === "rejected" && (
     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center">
-      Failed to log in. Please check your email and password.
+      Failed to register. Please check your email and password.
     </div>
   )
 
-  const isLoggingIn = !!(loginState === "pending")
+  const succeededOnRegistering = registerSate === "succeeded" && (
+    <>
+      <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
+        Registration successful! You can now log in.
+      </div>
+      <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
+        Redirecting to login page...
+      </div>
+    </>
+  )
+
+  interface RegisterFormFields extends HTMLFormControlsCollection {
+    email: HTMLInputElement
+    password: HTMLInputElement
+  }
+  interface RegisterFormElement extends HTMLFormElement {
+    readonly elements: RegisterFormFields
+  }
+
+  const handleSubmit = (e: React.FormEvent<RegisterFormElement>): void => {
+    e.preventDefault()
+
+    const email = e.currentTarget.elements.email.value
+    const password = e.currentTarget.elements.password.value
+
+    setRegisterState("pending")
+    console.log("setting register state to pending")
+
+    registerApiRequest({ email, password })
+      .then(() => {
+        setRegisterState("succeeded")
+        console.log("Setting register state to succeeded")
+      })
+      .catch((error: unknown) => {
+        console.error("Registration failed:", error)
+        setRegisterState("rejected")
+        console.log("Setting register state to rejected")
+      })
+  }
+
+  const isRegistering = registerSate === "pending"
+
   return (
     <div className="flex h-screen w-full md:w-10/12 mx-auto">
       {/* Left: Login Form */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-gray-50 p-8">
         <div className="w-full max-w-sm">
-          {FailedOnLoggingIn}
-          <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
+          {failedOnRegistering}
+          {succeededOnRegistering}
+          <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm mb-1">Email Address</label>
@@ -68,7 +100,7 @@ function Login() {
                 />
               </div>
               {/* loading indicator */}
-              {isLoggingIn && <LoadingSpinner />}
+              {isRegistering && <LoadingSpinner />}
             </div>
             {/* <div className="flex items-center justify-between text-sm">
               <label className="flex items-center">
@@ -83,13 +115,13 @@ function Login() {
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:opacity-90"
             >
-              Login
+              Sign Up
             </button>
           </form>
           <p className="mt-4 text-center text-sm">
-            Don’t Have An Account?{" "}
-            <a href="register" className="text-[#c5a880] hover:underline">
-              Sign Up
+            Already Have An Account?{" "}
+            <a href="/login" className="text-[#c5a880] hover:underline">
+              Login in here
             </a>
           </p>
         </div>
@@ -99,10 +131,10 @@ function Login() {
       <div className="w-1/2 md:flex bg-gradient-to-br from-zinc-600 to-black hidden items-center justify-center ">
         <div className="text-center">
           <h1 className="text-5xl font-bold text-[#c5a880] tracking-widest">
-            HEY
+            Welcome
           </h1>
           <h1 className="text-5xl font-bold text-[#c5a880] tracking-widest flex items-center justify-center">
-            HOW ARE YOU DOING TODAY?
+            It is nice to see you here
           </h1>
         </div>
       </div>
@@ -110,4 +142,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Register
