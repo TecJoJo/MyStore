@@ -7,9 +7,10 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
 ### 🔐 Authentication System
 
 - **User Login/Logout**: JWT-based authentication with secure token storage
-- **Protected Routes**: Admin dashboard accessible only to authenticated users
+- **New user Registration** Registration with UI feedback and automatic redirection to login page after 2 sec delay
+- **Protected Routes**: Dummy Admin dashboard(Place holder) accessible only to authenticated users
 - **Persistent Sessions**: Automatic login state restoration from localStorage
-- **Loading States**: Visual feedback during authentication process with loading spinner
+- **Loading States**: Visual feedback during authentication process && registration with loading spinner
 - **Error Handling**: Proper error states for failed authentication attempts
 
 ### 🛒 Shopping Cart
@@ -28,8 +29,7 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
 ### 📦 Product Catalog
 
 - **Product Display**: Interactive grid layout with hover effects
-- **Product Information**: Name, description, price, category, stock levels, and images
-- **API Integration**: Real-time product data fetching from backend
+- **Product Information**: Powered with Embla Carousel. Displaying product details on Name, description, price, stock levels
 - **Responsive Cards**: Mobile-friendly product display with smooth transitions
 - **Image Optimization**: Proper alt text and responsive image handling
 
@@ -47,6 +47,7 @@ A modern e-commerce web application built with React, TypeScript, and Redux Tool
 - **React Router**: Client-side routing with protected routes and navigation guards
 - **TypeScript**: Full type safety across the application with proper interfaces
 - **Component-based**: Modular and reusable component structure with feature-based organization
+- **Embla Carousel**: React friendly lib for carousel effects
 
 ## 🛠️ Tech Stack
 
@@ -84,28 +85,28 @@ src/
 ├── api/                          # API layer
 │   ├── authentication/
 │   │   ├── loginApiRequest.ts    # Login API call
-│   │   └── models.ts             # Auth API data models
+│   │   ├── models.ts             # Auth API data models
+│   │   └── registerApiRequest.ts # Registration API call
 │   ├── Products/
 │   │   ├── getAllProductsApiRequest.ts # Fetch all products
 │   │   └── models.ts             # Product API data models
 │   └── common/
 │       └── models.ts             # Common API types and URLs
 ├── app/                          # Redux store configuration
-│   ├── store.ts                  # Main store setup
+│   ├── createAppSlice.ts         # App-specific slice creator
 │   ├── hooks.ts                  # Typed Redux hooks
-│   ├── withTypes.ts              # Redux type utilities
-│   └── createAppSlice.ts         # App-specific slice creator
+│   ├── store.ts                  # Main store setup
+│   └── withTypes.ts              # Redux type utilities
 ├── components/                   # Reusable UI components
 │   └── landingPage/
 │       └── Hero.tsx              # Landing page hero section with products
 ├── features/                     # Feature-based modules
-│   ├── authentication/          # Auth feature
+│   ├── authentication/           # Auth feature
 │   │   ├── authenticationSlice.ts # Auth state management
 │   │   ├── Login.tsx             # Login form component
+│   │   ├── Register.tsx          # Registration form component
 │   │   ├── components/
 │   │   │   └── LoadingSpinner.tsx # Loading indicator
-│   │   ├── models/               # Auth-related types
-│   │   └── utils/                # Auth utilities
 │   ├── cart/                     # Shopping cart feature
 │   │   ├── cartSlice.ts          # Cart state management
 │   │   ├── Cart.tsx              # Cart panel component
@@ -115,17 +116,28 @@ src/
 │   │       └── constants.ts      # Cart constants and temp data
 │   ├── naviBar/                  # Navigation feature
 │   │   ├── Navibar.tsx           # Main navigation component
-│   │   └── components/
+│   │   └── utils/                # Navigation utilities
 │   └── products/                 # Products feature
+│       ├── emblaCarousel.css     # Carousel styles
+│       ├── overview.md           # Feature planning documentation
+│       ├── ProductDetail.tsx     # Product detail page
 │       ├── Products.tsx          # Product listing component
 │       ├── productsSlice.ts      # Product state management
-│       ├── overview.md           # Feature planning documentation
 │       ├── components/
 │       │   └── SingleProduct.tsx # Individual product card
 │       └── utils/
 │           └── getAllProductsResponseDtoToProductMap.ts # Data mapping utility
-└── utils/                        # Global utilities
-    └── test-utils.tsx            # Testing utilities
+├── shared/                       # Shared utilities and helpers
+│   └── utils/
+│       └── test-utils.tsx        # Testing utilities
+├── App.css                       # Global styles
+├── App.test.tsx                  # App tests
+├── App.tsx                       # Main App component
+├── index.css                     # Base styles
+├── logo.svg                      # Logo asset
+├── main.tsx                      # App entry point
+├── setupTests.ts                 # Test setup
+└── vite-env.d.ts                 # Vite environment types
 ```
 
 ## 🚀 Getting Started
