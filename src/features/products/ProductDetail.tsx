@@ -3,6 +3,7 @@ import useEmblaCarousel from "embla-carousel-react"
 import "./emblaCarousel.css"
 import { selectRightProduct } from "./productsSlice"
 import { useAppSelector } from "../../app/hooks"
+import { AddToCartButton } from "../../shared/widgets/buttons"
 const dummyImgUrls = [
   "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -44,6 +45,7 @@ function ProductDetail() {
         noProductFound
       ) : (
         <>
+          {/* Start of Carousel for product images */}
           <div
             className="embla w-full md:w-1/2"
             ref={emblaRef}
@@ -65,9 +67,10 @@ function ProductDetail() {
               })}
             </div>
           </div>
+          {/* End of Carousel for product images */}
           <div className="mx-4 md:mx-8 flex flex-col ">
             <h1
-              className="text-2xl md:text-4xl font-bold mb-4"
+              className="text-xl md:text-2xl font-bold mb-4"
               data-cy="productDetail-name"
             >
               {product.name}
@@ -96,6 +99,7 @@ function ProductDetail() {
             >
               Stock: {product.stock} items available
             </p>
+            <AddToCartButton />
           </div>
         </>
       )}
