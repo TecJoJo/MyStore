@@ -2,7 +2,8 @@
 
 - Add to cart button
 
-  - If the cart is inside the cart the button is shown as quantity and the quantity can be modified
+  - ~~If the cart is inside the cart the button is shown as quantity and the quantity can be modified~~
+  - Car button along with the quantity button beside it
   - Status should be synced with the cart
   - Cart is tied to user, thus there should be two mode of adding product
     - User is logged in
