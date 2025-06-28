@@ -63,14 +63,18 @@ function ShoppingItem({
             <span className="flex flex-col ml-1">
               <button
                 className="hover:bg-zinc-200"
-                onClick={() => dispatch(increaseCartItemQuantity(id))}
+                onClick={() =>
+                  dispatch(increaseCartItemQuantity({ id, quantity: 1 }))
+                }
                 data-cy="shoppingItem-quantity-increase"
               >
                 <FaSortUp />
               </button>
               <button
                 className="hover:bg-zinc-200"
-                onClick={() => dispatch(decreaseCartItemQuantity(id))}
+                onClick={() =>
+                  dispatch(decreaseCartItemQuantity({ id, quantity: 1 }))
+                }
                 data-cy="shoppingItem-quantity-decrease"
               >
                 <FaSortDown />

@@ -22,6 +22,11 @@ const initialState: ICartState = {
   cartItems: tempItemList,
 }
 
+interface AdjustCartItemQuantityPayload {
+  id: string
+  quantity: number
+}
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -29,32 +34,44 @@ export const cartSlice = createSlice({
     toggleCart(state) {
       state.isCartOpen = !state.isCartOpen
     },
-    increaseCartItemQuantity(state, action: PayloadAction<string>) {
+    increaseCartItemQuantity(
+      state,
+      action: PayloadAction<AdjustCartItemQuantityPayload>,
+    ) {
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(item => item.id === action.payload)
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
       if (cartItem) {
-        cartItem.quantity++
+        cartItem.quantity += action.payload.quantity
       }
     },
-    decreaseCartItemQuantity(state, action: PayloadAction<string>) {
+    decreaseCartItemQuantity(
+      state,
+      action: PayloadAction<AdjustCartItemQuantityPayload>,
+    ) {
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(item => item.id === action.payload)
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
       if (cartItem && cartItem.quantity > 0) {
-        cartItem.quantity--
+        cartItem.quantity -= action.payload.quantity
       }
     },
     deleteCartItem(state, action: PayloadAction<string>) {
-      state.cartItems = state.cartItems.filter(item => item.id !== action.payload)
+      state.cartItems = state.cartItems.filter(
+        item => item.id !== action.payload,
+      )
     },
-  }
+  },
 })
 
 export const {
   toggleCart,
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
-  deleteCartItem
+  deleteCartItem,
 } = cartSlice.actions
 export default cartSlice.reducer
