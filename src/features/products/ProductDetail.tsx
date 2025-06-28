@@ -2,7 +2,10 @@ import { useParams } from "react-router"
 import useEmblaCarousel from "embla-carousel-react"
 import "./emblaCarousel.css"
 import { selectRightProduct } from "./productsSlice"
-import { useAppSelector } from "../../app/hooks"
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { useState } from "react"
+import { addItemToCart, ICartItem, toggleCart } from "../cart/cartSlice"
+
 import {
   AddToCartButton,
   AdjustQuantityButtonGroup,
@@ -21,6 +24,24 @@ function ProductDetail() {
   const product = useAppSelector(state =>
     productId ? selectRightProduct(state, productId) : undefined,
   )
+  const [quantity, setQuantity] = useState(1)
+  const dispatch = useAppDispatch()
+
+  //TODO: the Certain kind of domain DTO should be
+  // used to substitute the Product interface inside the
+  // ProductsSlice and ICartItem interface inside the cartSlice
+
+  //we do the mapping here, temporarily
+  const cartItemPayload: ICartItem = {
+    color: "black",
+    id: product?.id ?? "",
+    imageUrl: product?.imageUrl ?? "",
+    name: product?.name ?? "",
+    price: product?.price ?? 0,
+    quantity,
+    size: "M",
+    discount: 0,
+  }
 
   //TODO: Provide more imgs for one product
   // For now, we are using dummy images along with product's own image
@@ -43,7 +64,7 @@ function ProductDetail() {
   )
 
   return (
-    <div className="py-4 md:py-16 w-full md:w-10/12 mx-auto flex flex-col md:flex-row justify-around items-start">
+    <div className="py-4 md:py-16 w-full md:w-10/12 mx-auto flex flex-col md:flex-row justify-around items-center md:items-start ">
       {!isProductFound ? (
         noProductFound
       ) : (
@@ -71,7 +92,7 @@ function ProductDetail() {
             </div>
           </div>
           {/* End of Carousel for product images */}
-          <div className="mx-4 md:mx-8 flex flex-col ">
+          <div className="mx-4 md:mx-8 flex  flex-col items-center md:items-start">
             <h1
               className="text-xl md:text-2xl font-bold mb-4"
               data-cy="productDetail-name"
@@ -102,8 +123,23 @@ function ProductDetail() {
             >
               Stock: {product.stock} items available
             </p>
-            <AddToCartButton text="Add to cart" />
-            <AdjustQuantityButtonGroup />
+            <AddToCartButton
+              text="Add to cart"
+              onAddToCart={() => {
+                dispatch(addItemToCart(cartItemPayload))
+                setQuantity(1) // Reset quantity after adding to cart
+                dispatch(toggleCart()) // Open cart after adding item
+              }}
+            />
+            <AdjustQuantityButtonGroup
+              quantity={quantity}
+              onDecrease={() => {
+                setQuantity(value => value - 1)
+              }}
+              onIncrease={() => {
+                setQuantity(value => value + 1)
+              }}
+            />
           </div>
         </>
       )}

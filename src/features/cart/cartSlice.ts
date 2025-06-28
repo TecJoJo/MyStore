@@ -5,7 +5,7 @@ interface ICartState {
   cartItems: ICartItem[]
 }
 
-interface ICartItem {
+export interface ICartItem {
   id: string
   name: string
   price: number
@@ -21,7 +21,6 @@ const initialState: ICartState = {
   //TODO: fetchCartItem thunk is needed when open cart, cart items should be fetched from backend
   cartItems: tempItemList,
 }
-
 interface AdjustCartItemQuantityPayload {
   id: string
   quantity: number
@@ -65,6 +64,17 @@ export const cartSlice = createSlice({
         item => item.id !== action.payload,
       )
     },
+
+    addItemToCart(state, action: PayloadAction<ICartItem>) {
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
+      if (cartItem) {
+        cartItem.quantity += action.payload.quantity
+      } else {
+        state.cartItems.push(action.payload)
+      }
+    },
   },
 })
 
@@ -73,5 +83,6 @@ export const {
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
   deleteCartItem,
+  addItemToCart,
 } = cartSlice.actions
 export default cartSlice.reducer
