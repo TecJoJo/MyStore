@@ -92,7 +92,7 @@ function ProductDetail() {
             </div>
           </div>
           {/* End of Carousel for product images */}
-          <div className="mx-4 md:mx-8 flex  flex-col items-center md:items-start">
+          <div className="w-full md:w-2/5 mx-4 md:mx-8 flex  flex-col items-center md:items-start">
             <h1
               className="text-xl md:text-2xl font-bold mb-4"
               data-cy="productDetail-name"

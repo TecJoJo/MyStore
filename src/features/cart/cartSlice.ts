@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { tempItemList } from "./utils/constants"
 interface ICartState {
   isCartOpen: boolean
   cartItems: ICartItem[]
@@ -19,7 +18,7 @@ export interface ICartItem {
 const initialState: ICartState = {
   isCartOpen: false,
   //TODO: fetchCartItem thunk is needed when open cart, cart items should be fetched from backend
-  cartItems: tempItemList,
+  cartItems: [],
 }
 interface AdjustCartItemQuantityPayload {
   id: string
