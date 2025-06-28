@@ -5,7 +5,7 @@ interface ICartState {
   cartItems: ICartItem[]
 }
 
-interface ICartItem {
+export interface ICartItem {
   id: string
   name: string
   price: number
@@ -21,6 +21,10 @@ const initialState: ICartState = {
   //TODO: fetchCartItem thunk is needed when open cart, cart items should be fetched from backend
   cartItems: tempItemList,
 }
+interface AdjustCartItemQuantityPayload {
+  id: string
+  quantity: number
+}
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -29,32 +33,56 @@ export const cartSlice = createSlice({
     toggleCart(state) {
       state.isCartOpen = !state.isCartOpen
     },
-    increaseCartItemQuantity(state, action: PayloadAction<string>) {
+    increaseCartItemQuantity(
+      state,
+      action: PayloadAction<AdjustCartItemQuantityPayload>,
+    ) {
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(item => item.id === action.payload)
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
       if (cartItem) {
-        cartItem.quantity++
+        cartItem.quantity += action.payload.quantity
       }
     },
-    decreaseCartItemQuantity(state, action: PayloadAction<string>) {
+    decreaseCartItemQuantity(
+      state,
+      action: PayloadAction<AdjustCartItemQuantityPayload>,
+    ) {
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(item => item.id === action.payload)
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
       if (cartItem && cartItem.quantity > 0) {
-        cartItem.quantity--
+        cartItem.quantity -= action.payload.quantity
       }
     },
     deleteCartItem(state, action: PayloadAction<string>) {
-      state.cartItems = state.cartItems.filter(item => item.id !== action.payload)
+      state.cartItems = state.cartItems.filter(
+        item => item.id !== action.payload,
+      )
     },
-  }
+
+    addItemToCart(state, action: PayloadAction<ICartItem>) {
+      const cartItem = state.cartItems.find(
+        item => item.id === action.payload.id,
+      )
+      if (cartItem) {
+        cartItem.quantity += action.payload.quantity
+      } else {
+        state.cartItems.push(action.payload)
+      }
+    },
+  },
 })
 
 export const {
   toggleCart,
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
-  deleteCartItem
+  deleteCartItem,
+  addItemToCart,
 } = cartSlice.actions
 export default cartSlice.reducer

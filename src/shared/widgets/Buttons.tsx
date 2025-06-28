@@ -1,0 +1,43 @@
+import { FaPlus } from "react-icons/fa"
+import { FaMinus } from "react-icons/fa"
+
+interface AddToCartButtonProps {
+  onAddToCart: () => void
+  text: string
+}
+
+function AddToCartButton({ onAddToCart, text }: AddToCartButtonProps) {
+  return (
+    <button
+      className="w-5/6 bg-zinc-900 rounded-full hover:bg-zinc-800  my-2 md:my-4"
+      onClick={onAddToCart}
+      data-cy="add-to-cart-button"
+    >
+      <p className="text-white font-base font-mono text-base md:text-lg lg:text-xl px-4 lg:px-6 py-1 md:py-2">
+        {text}
+      </p>
+    </button>
+  )
+}
+
+interface AdjustQuantityButtonGroupProps {
+  onIncrease: () => void
+  onDecrease: () => void
+  quantity: number
+}
+function AdjustQuantityButtonGroup({
+  onDecrease,
+  onIncrease,
+  quantity,
+}: AdjustQuantityButtonGroupProps) {
+  return (
+    <div className="w-5/6 border-1 rounded-full ">
+      <div className=" md:text-lg lg:text-xl px-4 lg:px-6 py-1 md:py-2 flex justify-between items-center">
+        <FaPlus className="hover:scale-125" onClick={onIncrease} />
+        <p>{quantity}</p>
+        <FaMinus className="hover:scale-125" onClick={onDecrease} />
+      </div>
+    </div>
+  )
+}
+export { AddToCartButton, AdjustQuantityButtonGroup }

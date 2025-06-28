@@ -2,7 +2,14 @@ import { useParams } from "react-router"
 import useEmblaCarousel from "embla-carousel-react"
 import "./emblaCarousel.css"
 import { selectRightProduct } from "./productsSlice"
-import { useAppSelector } from "../../app/hooks"
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { useState } from "react"
+import { addItemToCart, ICartItem, toggleCart } from "../cart/cartSlice"
+
+import {
+  AddToCartButton,
+  AdjustQuantityButtonGroup,
+} from "../../shared/widgets/Buttons"
 const dummyImgUrls = [
   "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -17,6 +24,24 @@ function ProductDetail() {
   const product = useAppSelector(state =>
     productId ? selectRightProduct(state, productId) : undefined,
   )
+  const [quantity, setQuantity] = useState(1)
+  const dispatch = useAppDispatch()
+
+  //TODO: the Certain kind of domain DTO should be
+  // used to substitute the Product interface inside the
+  // ProductsSlice and ICartItem interface inside the cartSlice
+
+  //we do the mapping here, temporarily
+  const cartItemPayload: ICartItem = {
+    color: "black",
+    id: product?.id ?? "",
+    imageUrl: product?.imageUrl ?? "",
+    name: product?.name ?? "",
+    price: product?.price ?? 0,
+    quantity,
+    size: "M",
+    discount: 0,
+  }
 
   //TODO: Provide more imgs for one product
   // For now, we are using dummy images along with product's own image
@@ -39,11 +64,12 @@ function ProductDetail() {
   )
 
   return (
-    <div className="py-4 md:py-16 w-full md:w-10/12 mx-auto flex flex-col md:flex-row justify-around items-start">
+    <div className="py-4 md:py-16 w-full md:w-10/12 mx-auto flex flex-col md:flex-row justify-around items-center md:items-start ">
       {!isProductFound ? (
         noProductFound
       ) : (
         <>
+          {/* Start of Carousel for product images */}
           <div
             className="embla w-full md:w-1/2"
             ref={emblaRef}
@@ -65,9 +91,10 @@ function ProductDetail() {
               })}
             </div>
           </div>
-          <div className="mx-4 md:mx-8 flex flex-col ">
+          {/* End of Carousel for product images */}
+          <div className="mx-4 md:mx-8 flex  flex-col items-center md:items-start">
             <h1
-              className="text-2xl md:text-4xl font-bold mb-4"
+              className="text-xl md:text-2xl font-bold mb-4"
               data-cy="productDetail-name"
             >
               {product.name}
@@ -96,6 +123,23 @@ function ProductDetail() {
             >
               Stock: {product.stock} items available
             </p>
+            <AddToCartButton
+              text="Add to cart"
+              onAddToCart={() => {
+                dispatch(addItemToCart(cartItemPayload))
+                setQuantity(1) // Reset quantity after adding to cart
+                dispatch(toggleCart()) // Open cart after adding item
+              }}
+            />
+            <AdjustQuantityButtonGroup
+              quantity={quantity}
+              onDecrease={() => {
+                setQuantity(value => value - 1)
+              }}
+              onIncrease={() => {
+                setQuantity(value => value + 1)
+              }}
+            />
           </div>
         </>
       )}
