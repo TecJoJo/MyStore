@@ -13,6 +13,7 @@ import Login from "./features/authentication/Login"
 import Register from "./features/authentication/Register"
 import Products from "./features/products/Products"
 import ProductDetail from "./features/products/ProductDetail"
+import Dashboard from "./features/dashboard/Dashboard"
 
 import Hero from "./components/landingPage/Hero"
 
@@ -20,10 +21,6 @@ import { useAppSelector } from "./app/hooks"
 import { useAppDispatch } from "./app/hooks"
 
 import { setAuthenticated } from "./features/authentication/authenticationSlice"
-
-const DummyAdminDashBoard = () => (
-  <div>This is dashboard and should be visibale only to authenticated user</div>
-)
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isUserAuthenticated = useAppSelector(
@@ -54,15 +51,13 @@ export const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/productDetail/:productId" element={<ProductDetail />} />
+        <Route path="/tempDashboard" element={<Dashboard />} />
         <Route
           path="/admin/*"
           element={
             <ProtectedRoute>
               <Routes>
-                <Route
-                  path="admin/dashboard"
-                  element={<DummyAdminDashBoard />}
-                ></Route>
+                <Route path="admin/dashboard" element={<Dashboard />}></Route>
               </Routes>
             </ProtectedRoute>
           }

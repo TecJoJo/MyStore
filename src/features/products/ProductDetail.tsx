@@ -9,7 +9,7 @@ import { addItemToCart, ICartItem, toggleCart } from "../cart/cartSlice"
 import {
   AddToCartButton,
   AdjustQuantityButtonGroup,
-} from "../../shared/widgets/Buttons"
+} from "../../components/widgets/Buttons"
 const dummyImgUrls = [
   "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
