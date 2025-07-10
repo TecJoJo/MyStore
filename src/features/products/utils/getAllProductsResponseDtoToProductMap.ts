@@ -1,4 +1,4 @@
-import { GetAllProductsResponseDto } from "../../../api/Products/models";
+import { GetAllProductsResponseDto } from "../../../api/products/models";
 import { Product } from "../productsSlice"
 export const mapGetAllProductsResponseDtoToProducts = (responseDto: GetAllProductsResponseDto): Product[] => {
     return responseDto.data.map(productDto => ({

@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createAppAsyncThunk } from "../../app/withTypes"
+import { getUserCartItems as getUserCartItemsApiRequest } from "../../api/cartItems/getUserCartItems"
 interface ICartState {
   isCartOpen: boolean
   cartItems: ICartItem[]
@@ -24,6 +26,14 @@ interface AdjustCartItemQuantityPayload {
   id: string
   quantity: number
 }
+
+export getUserCatItems = createAppAsyncThunk(
+  "getUserCartItems",
+  async () => {
+    const cartItems = await getUserCartItemsApiRequest()
+
+  }
+)
 
 export const cartSlice = createSlice({
   name: "cart",
