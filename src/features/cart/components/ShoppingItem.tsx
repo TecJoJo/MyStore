@@ -8,25 +8,19 @@ import {
   deleteCartItem,
 } from "../cartSlice"
 interface ShoppingItemProps {
-  id: string
+  productId: string
   name: string
   price: number
   quantity: number
-  color: string
-  size: string
-  discount?: number
   imageUrl: string
 }
 
 function ShoppingItem({
-  id,
+  productId,
   name,
-  color,
   imageUrl,
   price,
   quantity,
-  size,
-  discount,
 }: ShoppingItemProps): React.JSX.Element {
   const dispatch = useAppDispatch()
 
@@ -45,18 +39,7 @@ function ShoppingItem({
         >
           {name}
         </h2>
-        <p
-          className="font-mono text-sm text-gray-600"
-          data-cy="shoppingItem-color"
-        >
-          Color: {color}
-        </p>
-        <p
-          className="font-mono text-sm text-gray-600"
-          data-cy="shoppingItem-size"
-        >
-          Size: {size}
-        </p>
+
         <div className="flex flex-row justify-between items-center">
           <p className="font-mono text-sm text-gray-600 flex items-center gap-2">
             <span data-cy="shoppingItem-quantity">Quantity: {quantity}</span>
@@ -64,7 +47,7 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(increaseCartItemQuantity({ id, quantity: 1 }))
+                  dispatch(increaseCartItemQuantity({ productId, quantity: 1 }))
                 }
                 data-cy="shoppingItem-quantity-increase"
               >
@@ -73,7 +56,7 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(decreaseCartItemQuantity({ id, quantity: 1 }))
+                  dispatch(decreaseCartItemQuantity({ productId, quantity: 1 }))
                 }
                 data-cy="shoppingItem-quantity-decrease"
               >
@@ -83,7 +66,7 @@ function ShoppingItem({
           </p>
           <p
             className="mx-1 cursor-pointer hover:text-red-700"
-            onClick={() => dispatch(deleteCartItem(id))}
+            onClick={() => dispatch(deleteCartItem(productId))}
             data-cy="shoppingItem-delete"
           >
             <RiDeleteBin5Line />
@@ -94,13 +77,7 @@ function ShoppingItem({
           className="text-md font-semibold font-monospace"
           data-cy="shoppingItem-price"
         >
-          Price: €
-          {discount
-            ? (price * (1 - discount) * quantity).toFixed(2)
-            : (price * quantity).toFixed(2)}
-          {discount
-            ? ` (Discount: ${(price * discount * quantity).toFixed(2)})`
-            : ""}
+          Price: €{(price * quantity).toFixed(2)}
         </p>
       </div>
     </div>

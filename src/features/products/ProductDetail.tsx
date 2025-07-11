@@ -4,8 +4,8 @@ import "./emblaCarousel.css"
 import { selectRightProduct } from "./productsSlice"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { useState } from "react"
-import { addItemToCart, ICartItem, toggleCart } from "../cart/cartSlice"
-
+import { addItemToCart, toggleCart } from "../cart/cartSlice"
+import { ICartItem } from "../cart/models/cartModels"
 import {
   AddToCartButton,
   AdjustQuantityButtonGroup,
@@ -33,14 +33,12 @@ function ProductDetail() {
 
   //we do the mapping here, temporarily
   const cartItemPayload: ICartItem = {
-    color: "black",
-    id: product?.id ?? "",
+    id: "",
+    productId: product?.id ?? "", //This may cause problems if productId is not defined
     imageUrl: product?.imageUrl ?? "",
     name: product?.name ?? "",
     price: product?.price ?? 0,
     quantity,
-    size: "M",
-    discount: 0,
   }
 
   //TODO: Provide more imgs for one product

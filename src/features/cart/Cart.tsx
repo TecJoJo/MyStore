@@ -2,11 +2,22 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { toggleCart } from "../cart/cartSlice"
 import { IoCloseOutline } from "react-icons/io5"
 import ShoppingItem from "./components/ShoppingItem"
+import { useEffect } from "react"
+import { getUserCartItems } from "./cartSlice"
 
 function Cart() {
   const dispatch = useAppDispatch()
   const isCartOpen = useAppSelector(state => state.cart.isCartOpen)
   const cartItems = useAppSelector(state => state.cart.cartItems)
+
+  useEffect(() => {
+    if (isCartOpen) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      dispatch(getUserCartItems())
+    }
+    //TODO: When shall we update the state?
+    //so far we are updating the state every time when the car is opened => this will definitely cause override issues...
+  }, [isCartOpen])
 
   const cartTotal: number = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -26,14 +37,11 @@ function Cart() {
   const shoppingItems = cartItems.map(item => (
     <ShoppingItem
       key={item.id}
-      id={item.id}
-      color={item.color}
+      productId={item.productId}
       imageUrl={item.imageUrl}
       name={item.name}
       quantity={item.quantity}
       price={item.price}
-      size={item.size}
-      discount={item.discount}
     />
   ))
 

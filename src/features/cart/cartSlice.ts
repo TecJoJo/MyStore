@@ -1,38 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../../app/withTypes"
 import { getUserCartItems as getUserCartItemsApiRequest } from "../../api/cartItems/getUserCartItems"
-interface ICartState {
-  isCartOpen: boolean
-  cartItems: ICartItem[]
-}
+import {
+  ICartItem,
+  initialState,
+  AdjustCartItemQuantityPayload,
+} from "./models/cartModels"
+import { mapGetCartItemsDtoToICartItem } from "./utils/mapGetCartItemsDtoToICartItem"
 
-export interface ICartItem {
-  id: string
-  name: string
-  price: number
-  quantity: number
-  color: string
-  size: string
-  discount?: number
-  imageUrl: string
-}
-
-const initialState: ICartState = {
-  isCartOpen: false,
-  //TODO: fetchCartItem thunk is needed when open cart, cart items should be fetched from backend
-  cartItems: [],
-}
-interface AdjustCartItemQuantityPayload {
-  id: string
-  quantity: number
-}
-
-export getUserCatItems = createAppAsyncThunk(
+export const getUserCartItems = createAppAsyncThunk(
   "getUserCartItems",
   async () => {
-    const cartItems = await getUserCartItemsApiRequest()
-
-  }
+    const response = await getUserCartItemsApiRequest()
+    const carItems = mapGetCartItemsDtoToICartItem(response)
+    return carItems
+  },
 )
 
 export const cartSlice = createSlice({
@@ -49,7 +31,7 @@ export const cartSlice = createSlice({
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
       const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
+        item => item.productId === action.payload.productId,
       )
       if (cartItem) {
         cartItem.quantity += action.payload.quantity
@@ -62,7 +44,7 @@ export const cartSlice = createSlice({
       //TODO: performance issue may occur because of this usage
       //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
       const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
+        item => item.productId === action.payload.productId,
       )
       if (cartItem && cartItem.quantity > 0) {
         cartItem.quantity -= action.payload.quantity
@@ -70,13 +52,13 @@ export const cartSlice = createSlice({
     },
     deleteCartItem(state, action: PayloadAction<string>) {
       state.cartItems = state.cartItems.filter(
-        item => item.id !== action.payload,
+        item => item.productId !== action.payload,
       )
     },
 
     addItemToCart(state, action: PayloadAction<ICartItem>) {
       const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
+        item => item.productId === action.payload.productId,
       )
       if (cartItem) {
         cartItem.quantity += action.payload.quantity
@@ -84,6 +66,11 @@ export const cartSlice = createSlice({
         state.cartItems.push(action.payload)
       }
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(getUserCartItems.fulfilled, (state, action) => {
+      state.cartItems = action.payload
+    })
   },
 })
 
