@@ -126,7 +126,7 @@ function ProductDetail() {
               onAddToCart={() => {
                 dispatch(addItemToCart(cartItemPayload))
                 setQuantity(1) // Reset quantity after adding to cart
-                dispatch(toggleCart()) // Open cart after adding item
+                // dispatch(toggleCart()) // Open cart after adding item
               }}
             />
             <AdjustQuantityButtonGroup

@@ -17,6 +17,19 @@ export const getUserCartItems = createAppAsyncThunk(
   },
 )
 
+export const addCartItem = createAppAsyncThunk(
+  "addCartItem",
+  async (cartItem: ICartItem, { getState, dispatch }) => {
+    const rootState = getState()
+    if (
+      rootState.cart.cartItems.find(
+        item => item.productId === cartItem.productId,
+      )
+    ) {
+    }
+  },
+)
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
