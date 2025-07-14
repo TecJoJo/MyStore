@@ -11,5 +11,6 @@ export function mapGetCartItemsDtoToICartItem(
     price: cartItem.price,
     quantity: cartItem.quantity,
     imageUrl: cartItem.imageUrl,
+    updateState: "idle",
   }))
 }

@@ -4,12 +4,13 @@ import "./emblaCarousel.css"
 import { selectRightProduct } from "./productsSlice"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { useState } from "react"
-import { addItemToCart, toggleCart } from "../cart/cartSlice"
+import { addCartItem } from "../cart/thunks/cartThunks"
 import { ICartItem } from "../cart/models/cartModels"
 import {
   AddToCartButton,
   AdjustQuantityButtonGroup,
 } from "../../shared/widgets/Buttons"
+import { getCartItemByProductId } from "../cart/selectors/selectors"
 const dummyImgUrls = [
   "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -24,6 +25,16 @@ function ProductDetail() {
   const product = useAppSelector(state =>
     productId ? selectRightProduct(state, productId) : undefined,
   )
+  const cartItemUpdateState = useAppSelector(state =>
+    productId
+      ? getCartItemByProductId(state, productId)?.updateState
+      : undefined,
+  )
+
+  const cartItemId = useAppSelector(state =>
+    productId ? getCartItemByProductId(state, productId)?.id : undefined,
+  )
+
   const [quantity, setQuantity] = useState(1)
   const dispatch = useAppDispatch()
 
@@ -31,14 +42,14 @@ function ProductDetail() {
   // used to substitute the Product interface inside the
   // ProductsSlice and ICartItem interface inside the cartSlice
 
-  //we do the mapping here, temporarily
   const cartItemPayload: ICartItem = {
-    id: "",
+    id: cartItemId ?? "",
     productId: product?.id ?? "", //This may cause problems if productId is not defined
     imageUrl: product?.imageUrl ?? "",
     name: product?.name ?? "",
     price: product?.price ?? 0,
     quantity,
+    updateState: "idle",
   }
 
   //TODO: Provide more imgs for one product
@@ -48,6 +59,15 @@ function ProductDetail() {
   const carouselImages = [product?.imageUrl, ...dummyImgUrls].filter(
     (imgUrl): imgUrl is string => !!imgUrl,
   )
+
+  const handleAddingItem = async (
+    cartItemPayload: ICartItem,
+    quantity: number,
+  ) => {
+    await dispatch(addCartItem(cartItemPayload, quantity))
+    setQuantity(1) // Reset quantity after adding to cart
+    // dispatch(toggleCart()) // Open cart after adding item
+  }
 
   const noProductFound = (
     <div>
@@ -123,10 +143,9 @@ function ProductDetail() {
             </p>
             <AddToCartButton
               text="Add to cart"
+              isLoading={cartItemUpdateState === "pending"}
               onAddToCart={() => {
-                dispatch(addItemToCart(cartItemPayload))
-                setQuantity(1) // Reset quantity after adding to cart
-                // dispatch(toggleCart()) // Open cart after adding item
+                void handleAddingItem(cartItemPayload, quantity)
               }}
             />
             <AdjustQuantityButtonGroup

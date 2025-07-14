@@ -16,9 +16,17 @@ export interface ICartItem {
   price: number
   quantity: number
   imageUrl: string
+  updateState: CartItemUpdateState
 }
+
+export type CartItemUpdateState = "idle" | "pending" | "succeeded" | "failed"
 
 export interface AdjustCartItemQuantityPayload {
   productId: string
   quantity: number
+}
+
+export interface ISetCartItemUpdateStatePayload {
+  productId: string
+  updateState: CartItemUpdateState
 }
