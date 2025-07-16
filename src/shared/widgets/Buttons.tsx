@@ -16,7 +16,9 @@ function AddToCartButton({
 }: AddToCartButtonProps) {
   return (
     <button
-      className={`relative w-5/6 bg-zinc-900 rounded-full hover:bg-zinc-800 my-2 md:my-4 flex items-center justify-center`}
+      className={
+        "relative w-5/6 bg-zinc-900 rounded-full hover:bg-zinc-800 my-2 md:my-4 flex items-center justify-center"
+      }
       onClick={onAddToCart}
       data-cy="add-to-cart-button"
       style={style}

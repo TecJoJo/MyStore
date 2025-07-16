@@ -8,8 +8,8 @@ export const getUserCartItems = createAppAsyncThunk(
   "getUserCartItems",
   async () => {
     const response = await getUserCartItemsApiRequest()
-    const carItems = mapGetCartItemsDtoToICartItem(response)
-    return carItems
+    const cartItems = mapGetCartItemsDtoToICartItem(response)
+    return cartItems
   },
 )
 
