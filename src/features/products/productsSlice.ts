@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "../../app/withTypes"
-import { getAllProductsApiRequest } from "../../api/Products/getAllProductsApiRequest"
+import { getAllProductsApiRequest } from "../../api/products/getAllProductsApiRequest"
 import { mapGetAllProductsResponseDtoToProducts } from "./utils/getAllProductsResponseDtoToProductMap"
 import { RootState } from "../../app/store"
 export interface Product {

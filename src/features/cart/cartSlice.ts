@@ -1,79 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-interface ICartState {
-  isCartOpen: boolean
-  cartItems: ICartItem[]
-}
-
-export interface ICartItem {
-  id: string
-  name: string
-  price: number
-  quantity: number
-  color: string
-  size: string
-  discount?: number
-  imageUrl: string
-}
-
-const initialState: ICartState = {
-  isCartOpen: false,
-  //TODO: fetchCartItem thunk is needed when open cart, cart items should be fetched from backend
-  cartItems: [],
-}
-interface AdjustCartItemQuantityPayload {
-  id: string
-  quantity: number
-}
+import { createSlice } from "@reduxjs/toolkit"
+import { createAppAsyncThunk } from "../../app/withTypes"
+import { getUserCartItems as getUserCartItemsApiRequest } from "../../api/cartItems/getUserCartItems"
+import { initialState } from "./models/cartModels"
+import { mapGetCartItemsDtoToICartItem } from "./utils/mapGetCartItemsDtoToICartItem"
+import { cartReducers } from "./reducers/cartReducers"
+export const getUserCartItems = createAppAsyncThunk(
+  "getUserCartItems",
+  async () => {
+    const response = await getUserCartItemsApiRequest()
+    const cartItems = mapGetCartItemsDtoToICartItem(response)
+    return cartItems
+  },
+)
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    toggleCart(state) {
-      state.isCartOpen = !state.isCartOpen
-    },
-    increaseCartItemQuantity(
-      state,
-      action: PayloadAction<AdjustCartItemQuantityPayload>,
-    ) {
-      //TODO: performance issue may occur because of this usage
-      //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
-      )
-      if (cartItem) {
-        cartItem.quantity += action.payload.quantity
-      }
-    },
-    decreaseCartItemQuantity(
-      state,
-      action: PayloadAction<AdjustCartItemQuantityPayload>,
-    ) {
-      //TODO: performance issue may occur because of this usage
-      //See this: https://redux.js.org/tutorials/essentials/part-6-performance-normalization
-      const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
-      )
-      if (cartItem && cartItem.quantity > 0) {
-        cartItem.quantity -= action.payload.quantity
-      }
-    },
-    deleteCartItem(state, action: PayloadAction<string>) {
-      state.cartItems = state.cartItems.filter(
-        item => item.id !== action.payload,
-      )
-    },
-
-    addItemToCart(state, action: PayloadAction<ICartItem>) {
-      const cartItem = state.cartItems.find(
-        item => item.id === action.payload.id,
-      )
-      if (cartItem) {
-        cartItem.quantity += action.payload.quantity
-      } else {
-        state.cartItems.push(action.payload)
-      }
-    },
+  reducers: cartReducers,
+  extraReducers: builder => {
+    builder.addCase(getUserCartItems.fulfilled, (state, action) => {
+      state.cartItems = action.payload
+    })
   },
 })
 
@@ -83,5 +30,6 @@ export const {
   decreaseCartItemQuantity,
   deleteCartItem,
   addItemToCart,
+  setCartItemUpdateState,
 } = cartSlice.actions
 export default cartSlice.reducer
