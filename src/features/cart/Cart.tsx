@@ -3,7 +3,7 @@ import { toggleCart } from "../cart/cartSlice"
 import { IoCloseOutline } from "react-icons/io5"
 import ShoppingItem from "./components/ShoppingItem"
 import { useEffect } from "react"
-import { getUserCartItems } from "./cartSlice"
+import { getUserCartItems } from "./thunks/cartThunks"
 
 function Cart() {
   const dispatch = useAppDispatch()
