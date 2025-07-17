@@ -1,17 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createAppAsyncThunk } from "../../app/withTypes"
-import { getUserCartItems as getUserCartItemsApiRequest } from "../../api/cartItems/getUserCartItems"
 import { initialState } from "./models/cartModels"
-import { mapGetCartItemsDtoToICartItem } from "./utils/mapGetCartItemsDtoToICartItem"
 import { cartReducers } from "./reducers/cartReducers"
-export const getUserCartItems = createAppAsyncThunk(
-  "getUserCartItems",
-  async () => {
-    const response = await getUserCartItemsApiRequest()
-    const cartItems = mapGetCartItemsDtoToICartItem(response)
-    return cartItems
-  },
-)
+import { getUserCartItems } from "./thunks/cartThunks"
 
 export const cartSlice = createSlice({
   name: "cart",

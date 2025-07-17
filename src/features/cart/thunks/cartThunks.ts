@@ -7,6 +7,18 @@ import {
 } from "../cartSlice"
 import { modifyCartItemQuantity as modifyCartItemQuantityRequest } from "../../../api/cartItems/modifyCartItemQuantity"
 import { addCartItem as addCartItemApiRequest } from "../../../api/cartItems/addCartItem"
+import { mapGetCartItemsDtoToICartItem } from "../utils/mapGetCartItemsDtoToICartItem"
+import { getUserCartItems as getUserCartItemsApiRequest } from "../../../api/cartItems/getUserCartItems"
+import { createAppAsyncThunk } from "../../../app/withTypes"
+
+export const getUserCartItems = createAppAsyncThunk(
+  "getUserCartItems",
+  async () => {
+    const response = await getUserCartItemsApiRequest()
+    const cartItems = mapGetCartItemsDtoToICartItem(response)
+    return cartItems
+  },
+)
 
 export const addCartItem = (cartItem: ICartItem, quantity: number) => {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -86,6 +98,9 @@ export const addCartItem = (cartItem: ICartItem, quantity: number) => {
           }),
         )
         dispatch(addItemToCartActionCreator(cartItem))
+        //we need to fetch the cart again to get the cart item id
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        dispatch(getUserCartItems())
       } catch (error) {
         //set updateState to "failed"
         console.log(`Failed to add item to cart, cartItem:`, error, cartItem)
