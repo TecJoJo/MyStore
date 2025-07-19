@@ -10,6 +10,7 @@ import {
 } from "../cartSlice"
 import { modifyCartItemQuantity as modifyCartItemQuantityRequest } from "../../../api/cartItems/modifyCartItemQuantity"
 import { addCartItem as addCartItemApiRequest } from "../../../api/cartItems/addCartItem"
+import { deleteCartItem as deleteCartItemApiRequest } from "../../../api/cartItems/deleteCartItem"
 import { mapGetCartItemsDtoToICartItem } from "../utils/mapGetCartItemsDtoToICartItem"
 import { getUserCartItems as getUserCartItemsApiRequest } from "../../../api/cartItems/getUserCartItems"
 import { createAppAsyncThunk } from "../../../app/withTypes"
@@ -141,5 +142,13 @@ export const modifyCartItemQuantity = createAppAsyncThunk(
     const quantityAfter = quantity + args.quantity
     await modifyCartItemQuantityRequest(args.cartItemId, quantityAfter)
     return args
+  },
+)
+
+export const deleteCartItem = createAppAsyncThunk(
+  "deleteCartItem",
+  async (arg: string) => {
+    await deleteCartItemApiRequest(arg)
+    return arg
   },
 )
