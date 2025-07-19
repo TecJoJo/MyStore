@@ -2,12 +2,10 @@ import { FaSortUp, FaSortDown } from "react-icons/fa"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { useAppDispatch } from "../../../app/hooks"
 
-import {
-  increaseCartItemQuantity,
-  decreaseCartItemQuantity,
-  deleteCartItem,
-} from "../cartSlice"
+import { deleteCartItem } from "../cartSlice"
+import { modifyCartItemQuantity } from "../thunks/cartThunks"
 interface ShoppingItemProps {
+  cartItemId: string
   productId: string
   name: string
   price: number
@@ -16,6 +14,7 @@ interface ShoppingItemProps {
 }
 
 function ShoppingItem({
+  cartItemId,
   productId,
   name,
   imageUrl,
@@ -47,7 +46,7 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(increaseCartItemQuantity({ productId, quantity: 1 }))
+                  dispatch(modifyCartItemQuantity({ cartItemId, quantity: 1 }))
                 }
                 data-cy="shoppingItem-quantity-increase"
               >
@@ -56,7 +55,7 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(decreaseCartItemQuantity({ productId, quantity: 1 }))
+                  dispatch(modifyCartItemQuantity({ cartItemId, quantity: -1 }))
                 }
                 data-cy="shoppingItem-quantity-decrease"
               >
