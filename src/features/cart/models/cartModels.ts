@@ -30,3 +30,8 @@ export interface ISetCartItemUpdateStatePayload {
   productId: string
   updateState: CartItemUpdateState
 }
+
+export interface IModifyCartItemQuantityThunkArgs {
+  cartItemId: string
+  quantity: number
+}

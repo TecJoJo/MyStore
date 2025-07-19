@@ -1,4 +1,7 @@
-import { ICartItem } from "../models/cartModels"
+import {
+  ICartItem,
+  IModifyCartItemQuantityThunkArgs,
+} from "../models/cartModels"
 import { AppDispatch, RootState } from "../../../app/store"
 import {
   setCartItemUpdateState,
@@ -125,3 +128,18 @@ export const addCartItem = (cartItem: ICartItem, quantity: number) => {
     }
   }
 }
+
+export const modifyCartItemQuantity = createAppAsyncThunk(
+  "modifyCartItemQuantity",
+  async (args: IModifyCartItemQuantityThunkArgs, { getState }) => {
+    const state = getState()
+    const quantity = state.cart.cartItems.find(
+      item => item.id === args.cartItemId,
+    )?.quantity
+    if (!quantity)
+      throw new Error(`Item ${args.cartItemId}' is not found inside the cart`)
+    const quantityAfter = quantity + args.quantity
+    await modifyCartItemQuantityRequest(args.cartItemId, quantityAfter)
+    return args
+  },
+)
