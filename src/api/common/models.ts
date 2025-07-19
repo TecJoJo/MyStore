@@ -5,6 +5,7 @@ export const urls = {
   getCartItems: "http://localhost:5146/api/cart",
   addCartItem: "http://localhost:5146/api/cart/cartitem",
   modifyCartItemQuantity: "http://localhost:5146/api/cart/cartitem",
+  deleteCartItem: "http://localhost:5146/api/cart/cartitem",
 }
 
 export interface ApiResponse<T> {

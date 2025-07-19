@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { initialState } from "./models/cartModels"
 import { cartReducers } from "./reducers/cartReducers"
-import { getUserCartItems, modifyCartItemQuantity } from "./thunks/cartThunks"
+import {
+  getUserCartItems,
+  modifyCartItemQuantity,
+  deleteCartItem as deleteCartItemThunkCreator,
+} from "./thunks/cartThunks"
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -25,6 +29,11 @@ export const cartSlice = createSlice({
             `Item ${action.payload.cartItemId}'s quantity get incremented by ${action.payload.quantity.toString()} but we failed to find the item in UI. This indicated a BUG`,
           )
         }
+      })
+      .addCase(deleteCartItemThunkCreator.fulfilled, (state, action) => {
+        state.cartItems = state.cartItems.filter(
+          item => item.id !== action.payload,
+        )
       })
   },
 })

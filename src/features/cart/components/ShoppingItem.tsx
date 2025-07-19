@@ -2,8 +2,7 @@ import { FaSortUp, FaSortDown } from "react-icons/fa"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { useAppDispatch } from "../../../app/hooks"
 
-import { deleteCartItem } from "../cartSlice"
-import { modifyCartItemQuantity } from "../thunks/cartThunks"
+import { modifyCartItemQuantity, deleteCartItem } from "../thunks/cartThunks"
 interface ShoppingItemProps {
   cartItemId: string
   productId: string
@@ -15,7 +14,6 @@ interface ShoppingItemProps {
 
 function ShoppingItem({
   cartItemId,
-  productId,
   name,
   imageUrl,
   price,
@@ -46,7 +44,9 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(modifyCartItemQuantity({ cartItemId, quantity: 1 }))
+                  void dispatch(
+                    modifyCartItemQuantity({ cartItemId, quantity: 1 }),
+                  )
                 }
                 data-cy="shoppingItem-quantity-increase"
               >
@@ -55,7 +55,9 @@ function ShoppingItem({
               <button
                 className="hover:bg-zinc-200"
                 onClick={() =>
-                  dispatch(modifyCartItemQuantity({ cartItemId, quantity: -1 }))
+                  void dispatch(
+                    modifyCartItemQuantity({ cartItemId, quantity: -1 }),
+                  )
                 }
                 data-cy="shoppingItem-quantity-decrease"
               >
@@ -65,7 +67,7 @@ function ShoppingItem({
           </p>
           <p
             className="mx-1 cursor-pointer hover:text-red-700"
-            onClick={() => dispatch(deleteCartItem(productId))}
+            onClick={() => void dispatch(deleteCartItem(cartItemId))}
             data-cy="shoppingItem-delete"
           >
             <RiDeleteBin5Line />
