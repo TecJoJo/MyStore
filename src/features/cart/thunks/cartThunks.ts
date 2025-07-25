@@ -132,7 +132,7 @@ export const addCartItem = (cartItem: ICartItem, quantity: number) => {
 
 export const modifyCartItemQuantity = createAppAsyncThunk(
   "modifyCartItemQuantity",
-  async (args: IModifyCartItemQuantityThunkArgs, { getState }) => {
+  async (args: IModifyCartItemQuantityThunkArgs, { getState, dispatch }) => {
     const state = getState()
     const quantity = state.cart.cartItems.find(
       item => item.id === args.cartItemId,
@@ -140,15 +140,19 @@ export const modifyCartItemQuantity = createAppAsyncThunk(
     if (!quantity)
       throw new Error(`Item ${args.cartItemId}' is not found inside the cart`)
     const quantityAfter = quantity + args.quantity
-    await modifyCartItemQuantityRequest(args.cartItemId, quantityAfter)
+    if (quantityAfter > 0) {
+      await modifyCartItemQuantityRequest(args.cartItemId, quantityAfter)
+    } else {
+      void dispatch(deleteCartItem(args.cartItemId))
+    }
     return args
   },
 )
 
 export const deleteCartItem = createAppAsyncThunk(
   "deleteCartItem",
-  async (arg: string) => {
-    await deleteCartItemApiRequest(arg)
-    return arg
+  async (cartItemId: string) => {
+    await deleteCartItemApiRequest(cartItemId)
+    return cartItemId
   },
 )
