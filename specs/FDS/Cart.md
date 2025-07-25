@@ -10,6 +10,7 @@
 - [] adding item will **follow with a fetch**
 - [] Any changes(alter quantities, remove items) to the cart will follow with a fetch, disabling any further interactions before getting the responses
   - [] Before the preceding request is responded, "add" button should be disabled
+- [] Decrease item quantity to 0, item should be deleted from the cart, from both UI and DB
 
 # Problems
 
@@ -25,6 +26,3 @@
     - Against UI means risk of UI state is out of sync with the server
 
     **Solution:** Based on the backend, sacrificing little bit UX but bounce the accuracy
-
-- [] Adding new item to car no loading spinner showing
-  - **Reason** Loading state is bound to CartItem

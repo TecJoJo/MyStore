@@ -42,6 +42,7 @@ function Cart() {
       name={item.name}
       quantity={item.quantity}
       price={item.price}
+      cartItemId={item.id}
     />
   ))
 

@@ -1,4 +1,7 @@
-import { ICartItem } from "../models/cartModels"
+import {
+  ICartItem,
+  IModifyCartItemQuantityThunkArgs,
+} from "../models/cartModels"
 import { AppDispatch, RootState } from "../../../app/store"
 import {
   setCartItemUpdateState,
@@ -7,6 +10,7 @@ import {
 } from "../cartSlice"
 import { modifyCartItemQuantity as modifyCartItemQuantityRequest } from "../../../api/cartItems/modifyCartItemQuantity"
 import { addCartItem as addCartItemApiRequest } from "../../../api/cartItems/addCartItem"
+import { deleteCartItem as deleteCartItemApiRequest } from "../../../api/cartItems/deleteCartItem"
 import { mapGetCartItemsDtoToICartItem } from "../utils/mapGetCartItemsDtoToICartItem"
 import { getUserCartItems as getUserCartItemsApiRequest } from "../../../api/cartItems/getUserCartItems"
 import { createAppAsyncThunk } from "../../../app/withTypes"
@@ -125,3 +129,26 @@ export const addCartItem = (cartItem: ICartItem, quantity: number) => {
     }
   }
 }
+
+export const modifyCartItemQuantity = createAppAsyncThunk(
+  "modifyCartItemQuantity",
+  async (args: IModifyCartItemQuantityThunkArgs, { getState }) => {
+    const state = getState()
+    const quantity = state.cart.cartItems.find(
+      item => item.id === args.cartItemId,
+    )?.quantity
+    if (!quantity)
+      throw new Error(`Item ${args.cartItemId}' is not found inside the cart`)
+    const quantityAfter = quantity + args.quantity
+    await modifyCartItemQuantityRequest(args.cartItemId, quantityAfter)
+    return args
+  },
+)
+
+export const deleteCartItem = createAppAsyncThunk(
+  "deleteCartItem",
+  async (arg: string) => {
+    await deleteCartItemApiRequest(arg)
+    return arg
+  },
+)
