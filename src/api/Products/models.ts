@@ -1,5 +1,6 @@
 import { ApiResponse } from "../common/models"
 
+//Dtos start with underscore indicates they are defined by backend
 export interface _GetProductsResponseDTO {
     id: string;
     name: string;
