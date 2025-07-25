@@ -7,10 +7,12 @@
 - [] adding item, from the product will have a loading spinner indicating the backend communication
   - [x] Add existing item to car (Increment quantity)
   - [] Add new item to cart
-- [] adding item will **follow with a fetch**
+- [x] adding item will **follow with a fetch**
 - [] Any changes(alter quantities, remove items) to the cart will follow with a fetch, disabling any further interactions before getting the responses
   - [] Before the preceding request is responded, "add" button should be disabled
-- [] Decrease item quantity to 0, item should be deleted from the cart, from both UI and DB
+- [x] Decrease item quantity to 0, item should be deleted from the cart, from both UI and DB
+- [] Thunk Error state handled with UI feedback
+- [] Refactor the addCartItem thunk using createAsyncThunk
 
 # Problems
 
