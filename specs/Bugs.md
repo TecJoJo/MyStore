@@ -6,6 +6,7 @@
 - [] Adding new item to car no loading spinner showing
   - **Reason** Loading state is bound to CartItem
 - [] Product detail product quantity can be decrease below zero
+- [] Protected routing is not working as expected
 
 # Issues
 
