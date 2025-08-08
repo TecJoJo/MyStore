@@ -20,6 +20,7 @@ import Switch from "@mui/material/Switch"
 
 import { MdDeleteOutline as DeleteIcon } from "react-icons/md"
 import { CiFilter as FilterListIcon } from "react-icons/ci"
+import { CiSquarePlus } from "react-icons/ci"
 
 import { visuallyHidden } from "@mui/utils"
 
@@ -198,7 +199,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Products
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -208,11 +209,23 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Add product">
+            <IconButton>
+              <CiSquarePlus />
+            </IconButton>
+          </Tooltip>
+        </Box>
       )}
     </Toolbar>
   )

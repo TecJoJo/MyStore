@@ -13,7 +13,7 @@ import Login from "./features/authentication/Login"
 import Register from "./features/authentication/Register"
 import Products from "./features/products/Products"
 import ProductDetail from "./features/products/ProductDetail"
-import Dashboard from "./features/dashboard/Dashboard"
+import ProductManagement from "./features/productsManagement/ProductsManagement"
 
 import Hero from "./components/landingPage/Hero"
 
@@ -51,13 +51,16 @@ export const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/productDetail/:productId" element={<ProductDetail />} />
-        <Route path="/tempDashboard" element={<Dashboard />} />
+        <Route path="/tempDashboard" element={<ProductManagement />} />
         <Route
           path="/admin/*"
           element={
             <ProtectedRoute>
               <Routes>
-                <Route path="admin/dashboard" element={<Dashboard />}></Route>
+                <Route
+                  path="admin/dashboard"
+                  element={<ProductManagement />}
+                ></Route>
               </Routes>
             </ProtectedRoute>
           }
