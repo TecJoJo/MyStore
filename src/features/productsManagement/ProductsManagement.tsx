@@ -6,6 +6,9 @@ function ProductsManagement() {
   return (
     <div className="relative">
       <ProductList />
+      <ProductCreationSidebar
+        open={true} // Replace with actual state management
+      />
     </div>
   )
 }

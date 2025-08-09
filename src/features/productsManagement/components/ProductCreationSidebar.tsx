@@ -9,12 +9,11 @@ import {
   TextField,
   Divider,
   Button,
-  Switch,
-  FormControlLabel,
 } from "@mui/material"
 import { alpha } from "@mui/material/styles"
 import { CiSquarePlus as AddIcon } from "react-icons/ci"
 import { MdClose as CloseIcon } from "react-icons/md"
+import { useState } from "react"
 
 // UI-only component. Parent supplies all state & handlers.
 // Intentionally no redux, no async logic.
@@ -30,39 +29,35 @@ export interface ProductCreationSidebarValues {
 
 export interface ProductCreationSidebarProps {
   open: boolean
-  onClose: () => void
-  values: ProductCreationSidebarValues
-  dense?: boolean
-  submitting?: boolean
-  disableSubmit?: boolean
-  onFieldChange: (
-    field: keyof ProductCreationSidebarValues,
-    value: string,
-  ) => void
-  onToggleDense?: (next: boolean) => void
-  onSubmit: () => void
 }
 
 const SIDEBAR_WIDTH = 360
 
 const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
   open,
-  onClose,
-  values,
-  dense = false,
-  submitting = false,
-  disableSubmit,
-  onFieldChange,
-  onToggleDense,
-  onSubmit,
 }) => {
-  const size = dense ? "small" : "medium"
+  const [name, setName] = useState("ProductName")
+  const [description, setDescription] = useState("ProductDescription")
+  const [price, setPrice] = useState("0")
+  const [imageUrl, setImageUrl] = useState("http://example.com/image.png")
+  const [category, setCategory] = useState("Category")
+  const [stock, setStock] = useState("0")
+
+  const onSubmit = () => {
+    console.log("Submitting product creation form with values:", {
+      name,
+      description,
+      price,
+      imageUrl,
+      category,
+      stock,
+    })
+  }
 
   return (
     <Drawer
       anchor="right"
       open={open}
-      onClose={onClose}
       slotProps={{
         paper: {
           sx: theme => ({
@@ -89,7 +84,7 @@ const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           New Product
         </Typography>
-        <IconButton onClick={onClose} aria-label="close sidebar" size="small">
+        <IconButton aria-label="close sidebar" size="small">
           <CloseIcon />
         </IconButton>
       </Toolbar>
@@ -103,86 +98,68 @@ const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
           flexDirection: "column",
         }}
       >
-        <Stack spacing={dense ? 1 : 2}>
+        <Stack spacing={2}>
           <TextField
             label="Name"
-            value={values.name}
-            size={size}
+            value={name}
             onChange={e => {
-              onFieldChange("name", e.target.value)
+              setName(e.target.value)
             }}
             required
             autoFocus
           />
           <TextField
             label="Description"
-            value={values.description}
-            size={size}
+            value={description}
             multiline
             minRows={3}
             onChange={e => {
-              onFieldChange("description", e.target.value)
+              setDescription(e.target.value)
             }}
           />
           <TextField
             label="Price"
-            value={values.price}
-            size={size}
+            value={price}
             type="number"
             slotProps={{ htmlInput: { step: "0.01", min: 0 } }}
             onChange={e => {
-              onFieldChange("price", e.target.value)
+              setPrice(e.target.value)
             }}
           />
           <TextField
             label="Image URL"
-            value={values.imageUrl}
-            size={size}
+            value={imageUrl}
             onChange={e => {
-              onFieldChange("imageUrl", e.target.value)
+              setImageUrl(e.target.value)
             }}
           />
           <TextField
             label="Category"
-            value={values.category}
-            size={size}
+            value={category}
             onChange={e => {
-              onFieldChange("category", e.target.value)
+              setCategory(e.target.value)
             }}
           />
           <TextField
             label="Stock"
-            value={values.stock}
-            size={size}
+            value={stock}
             type="number"
             slotProps={{ htmlInput: { step: 1, min: 0 } }}
             onChange={e => {
-              onFieldChange("stock", e.target.value)
+              setStock(e.target.value)
             }}
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                size="small"
-                checked={dense}
-                onChange={e => onToggleDense?.(e.target.checked)}
-              />
-            }
-            label="Dense fields"
-            sx={{ alignSelf: "flex-start", mt: 0.5 }}
           />
         </Stack>
         <Box sx={{ mt: 3, display: "flex", gap: 1 }}>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            disabled={(disableSubmit ?? false) || submitting}
             onClick={onSubmit}
             fullWidth
           >
-            {submitting ? "Saving..." : "Create"}
+            Create Product
           </Button>
-          <Button variant="outlined" onClick={onClose} fullWidth>
+          <Button variant="outlined" fullWidth>
             Cancel
           </Button>
         </Box>
