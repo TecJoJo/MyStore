@@ -9,14 +9,17 @@ import {
   TextField,
   Divider,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material"
 import { alpha } from "@mui/material/styles"
-import { CiSquarePlus as AddIcon } from "react-icons/ci"
 import { MdClose as CloseIcon } from "react-icons/md"
 import { useState } from "react"
 import { useAppSelector } from "../../../app/hooks"
 import { useAppDispatch } from "../../../app/hooks"
 import { toggleProductCreationSidebar } from "../productsManagementSlice"
+import { createProductApiRequest } from "../../../api/products/createProductApiRequest"
+import { useEffect } from "react"
 
 // UI-only component. Parent supplies all state & handlers.
 // Intentionally no redux, no async logic.
@@ -38,22 +41,40 @@ const ProductCreationSidebar: React.FC = () => {
   )
   const [name, setName] = useState("ProductName")
   const [description, setDescription] = useState("ProductDescription")
-  const [price, setPrice] = useState("0")
+  const [price, setPrice] = useState(0)
   const [imageUrl, setImageUrl] = useState("http://example.com/image.png")
   const [category, setCategory] = useState("Category")
-  const [stock, setStock] = useState("0")
+  const [stock, setStock] = useState(0)
+  const [submissionState, setSubmissionState] = useState<
+    "idle" | "pending" | "succeeded" | "failed"
+  >("idle")
+
+  useEffect(() => {
+    if (!isProductCreationSidebarOpen) {
+      setSubmissionState("idle")
+    }
+  }, [setSubmissionState, isProductCreationSidebarOpen])
 
   const dispatch = useAppDispatch()
 
-  const onSubmit = () => {
-    console.log("Submitting product creation form with values:", {
-      name,
-      description,
-      price,
-      imageUrl,
-      category,
-      stock,
-    })
+  const onSubmit = async () => {
+    try {
+      if (submissionState === "pending") return
+
+      setSubmissionState("pending")
+      await createProductApiRequest({
+        name,
+        description,
+        price,
+        imageUrl,
+        category,
+        stock,
+      })
+
+      setSubmissionState("succeeded")
+    } catch {
+      setSubmissionState("failed")
+    }
   }
 
   const onSidebarToggling = () => {
@@ -132,7 +153,7 @@ const ProductCreationSidebar: React.FC = () => {
             type="number"
             slotProps={{ htmlInput: { step: "0.01", min: 0 } }}
             onChange={e => {
-              setPrice(e.target.value)
+              setPrice(Number(e.target.value))
             }}
           />
           <TextField
@@ -155,18 +176,42 @@ const ProductCreationSidebar: React.FC = () => {
             type="number"
             slotProps={{ htmlInput: { step: 1, min: 0 } }}
             onChange={e => {
-              setStock(e.target.value)
+              setStock(Number(e.target.value))
             }}
           />
         </Stack>
         <Box sx={{ mt: 3, display: "flex", gap: 1 }}>
-          <Button variant="contained" onClick={onSubmit} fullWidth>
+          <Button
+            disabled={submissionState === "pending"}
+            variant="contained"
+            onClick={() => {
+              void onSubmit()
+            }}
+            fullWidth
+          >
             Create Product
           </Button>
           <Button variant="outlined" fullWidth onClick={onSidebarToggling}>
             Cancel
           </Button>
         </Box>
+      </Box>
+      <Box>
+        <Snackbar
+          open={submissionState === "succeeded" || submissionState === "failed"}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            severity={submissionState === "succeeded" ? "success" : "error"}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {submissionState === "succeeded"
+              ? "Product created successfully."
+              : "Failed to create product. Please try again."}
+          </Alert>
+        </Snackbar>
       </Box>
     </Drawer>
   )
