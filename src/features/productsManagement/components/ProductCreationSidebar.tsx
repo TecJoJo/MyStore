@@ -14,6 +14,9 @@ import { alpha } from "@mui/material/styles"
 import { CiSquarePlus as AddIcon } from "react-icons/ci"
 import { MdClose as CloseIcon } from "react-icons/md"
 import { useState } from "react"
+import { useAppSelector } from "../../../app/hooks"
+import { useAppDispatch } from "../../../app/hooks"
+import { toggleProductCreationSidebar } from "../productsManagementSlice"
 
 // UI-only component. Parent supplies all state & handlers.
 // Intentionally no redux, no async logic.
@@ -27,21 +30,20 @@ export interface ProductCreationSidebarValues {
   stock: string
 }
 
-export interface ProductCreationSidebarProps {
-  open: boolean
-}
-
 const SIDEBAR_WIDTH = 360
 
-const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
-  open,
-}) => {
+const ProductCreationSidebar: React.FC = () => {
+  const isProductCreationSidebarOpen = useAppSelector(
+    state => state.productsManagement.isProductCreationSidebarOpen,
+  )
   const [name, setName] = useState("ProductName")
   const [description, setDescription] = useState("ProductDescription")
   const [price, setPrice] = useState("0")
   const [imageUrl, setImageUrl] = useState("http://example.com/image.png")
   const [category, setCategory] = useState("Category")
   const [stock, setStock] = useState("0")
+
+  const dispatch = useAppDispatch()
 
   const onSubmit = () => {
     console.log("Submitting product creation form with values:", {
@@ -54,10 +56,14 @@ const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
     })
   }
 
+  const onSidebarToggling = () => {
+    dispatch(toggleProductCreationSidebar())
+  }
+
   return (
     <Drawer
       anchor="right"
-      open={open}
+      open={isProductCreationSidebarOpen}
       slotProps={{
         paper: {
           sx: theme => ({
@@ -80,11 +86,14 @@ const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
           ),
         })}
       >
-        <AddIcon size={22} />
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           New Product
         </Typography>
-        <IconButton aria-label="close sidebar" size="small">
+        <IconButton
+          aria-label="close sidebar"
+          size="small"
+          onClick={onSidebarToggling}
+        >
           <CloseIcon />
         </IconButton>
       </Toolbar>
@@ -151,15 +160,10 @@ const ProductCreationSidebar: React.FC<ProductCreationSidebarProps> = ({
           />
         </Stack>
         <Box sx={{ mt: 3, display: "flex", gap: 1 }}>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={onSubmit}
-            fullWidth
-          >
+          <Button variant="contained" onClick={onSubmit} fullWidth>
             Create Product
           </Button>
-          <Button variant="outlined" fullWidth>
+          <Button variant="outlined" fullWidth onClick={onSidebarToggling}>
             Cancel
           </Button>
         </Box>

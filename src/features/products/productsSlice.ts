@@ -3,18 +3,10 @@ import { createAppAsyncThunk } from "../../app/withTypes"
 import { getAllProductsApiRequest } from "../../api/products/getAllProductsApiRequest"
 import { mapGetAllProductsResponseDtoToProducts } from "./utils/getAllProductsResponseDtoToProductMap"
 import { RootState } from "../../app/store"
-export interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  imageUrl: string
-  category: string
-  stock: number
-}
+import { IProduct } from "../../sharedModels/product/product"
 
 interface ProductsState {
-  products: Product[]
+  products: IProduct[]
 }
 
 export const getAllProducts = createAppAsyncThunk(

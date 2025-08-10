@@ -25,7 +25,9 @@ import { CiSquarePlus } from "react-icons/ci"
 import { visuallyHidden } from "@mui/utils"
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
-import { Product, getAllProducts } from "../../products/productsSlice"
+import { IProduct } from "../../../sharedModels/product/product"
+import { getAllProducts } from "../../products/productsSlice"
+import { toggleProductCreationSidebar } from "../productsManagementSlice"
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,7 +55,7 @@ function getComparator<Key extends keyof any>(
 
 interface HeadCell {
   disablePadding: boolean
-  id: keyof Product
+  id: keyof IProduct
   label: string
   numeric: boolean
 }
@@ -101,7 +103,7 @@ interface EnhancedTableProps {
   numSelected: number
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Product,
+    property: keyof IProduct,
   ) => void
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
   order: Order
@@ -119,7 +121,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props
   const createSortHandler =
-    (property: keyof Product) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof IProduct) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property)
     }
 
@@ -164,9 +166,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 interface EnhancedTableToolbarProps {
   numSelected: number
+  handleProductCreationSidebarToggling: () => void
 }
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props
+  const { numSelected, handleProductCreationSidebarToggling } = props
   return (
     <Toolbar
       sx={[
@@ -221,7 +224,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </IconButton>
           </Tooltip>
           <Tooltip title="Add product">
-            <IconButton>
+            <IconButton onClick={handleProductCreationSidebarToggling}>
               <CiSquarePlus />
             </IconButton>
           </Tooltip>
@@ -232,7 +235,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>("asc")
-  const [orderBy, setOrderBy] = React.useState<keyof Product>("name")
+  const [orderBy, setOrderBy] = React.useState<keyof IProduct>("name")
   const [selected, setSelected] = React.useState<readonly string[]>([])
   const [page, setPage] = React.useState(0)
   const [dense, setDense] = React.useState(false)
@@ -248,7 +251,7 @@ export default function EnhancedTable() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Product,
+    property: keyof IProduct,
   ) => {
     const isAsc = orderBy === property && order === "asc"
     setOrder(isAsc ? "desc" : "asc")
@@ -298,6 +301,10 @@ export default function EnhancedTable() {
     setDense(event.target.checked)
   }
 
+  const handleProductCreationSidebarToggling = () => {
+    dispatch(toggleProductCreationSidebar())
+  }
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
@@ -313,7 +320,12 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          handleProductCreationSidebarToggling={
+            handleProductCreationSidebarToggling
+          }
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
