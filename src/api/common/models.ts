@@ -1,11 +1,13 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL
+
 export const urls = {
-  login: "http://localhost:5146/api/auth/login",
-  register: "http://localhost:5146/api/auth/register",
-  getAllProducts: "http://localhost:5146/api/products",
-  getCartItems: "http://localhost:5146/api/cart",
-  addCartItem: "http://localhost:5146/api/cart/cartitem",
-  modifyCartItemQuantity: "http://localhost:5146/api/cart/cartitem",
-  deleteCartItem: "http://localhost:5146/api/cart/cartitem",
+  login: `${API_BASE_URL}/api/auth/login`,
+  register: `${API_BASE_URL}/api/auth/register`,
+  getAllProducts: `${API_BASE_URL}/api/products`,
+  getCartItems: `${API_BASE_URL}/api/cart`,
+  addCartItem: `${API_BASE_URL}/api/cart/cartitem`,
+  modifyCartItemQuantity: `${API_BASE_URL}/api/cart/cartitem`,
+  deleteCartItem: `${API_BASE_URL}/api/cart/cartitem`,
 }
 
 export interface ApiResponse<T> {
